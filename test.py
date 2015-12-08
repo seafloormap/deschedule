@@ -16,4 +16,6 @@ s = cal.Semester(
     })
 
 print(s.calendar())
-print(s.calendar().to_ical().decode('utf-8'))
+
+with open('test.ical', 'wb') as f:
+  f.write(s.calendar().to_ical())
