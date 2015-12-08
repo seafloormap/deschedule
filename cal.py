@@ -34,14 +34,9 @@ class Semester:
         cal.add('prodid', ICAL_PRODID)
         cal.add('version', ICAL_VERSION)
 
-        for class_name, sections in self.class_instances().items():
-            for section_type, time_pairs in sections.items():
-                for start, length in time_pairs:
-                    ev = icalendar.Event()
-                    ev.add('summary', '{} {}'.format(class_name, section_type))
-                    ev.add('dtstart', start)
-                    ev.add('duration', length)
-                    cal.add_component(ev)
+        for class_name, class_o in self.classes.items():
+            for ev in class_o.to_events(self.days(), class_name = class_name):
+                cal.add_component(ev)
 
         return cal
 
@@ -70,6 +65,13 @@ class Class:
         return {section_name: map(section.time_duration, filter(section.on_day, days))
                 for section_name, section in self.sections.items()}
 
+    def to_events(self, days, **context):
+        for section_kind, section_o in self.sections.items():
+            for ev in section_o.to_events(days,
+                    section_kind = section_kind,
+                    **context):
+                yield ev
+
     @classmethod
     def from_json_dict(cls, d):
         args = d
@@ -78,16 +80,34 @@ class Class:
         return cls(**args)
 
 class Section:
-    def __init__(self, days, time, length):
-        self.days   = days
-        self.time   = time
-        self.length = length
+    def __init__(self, days, time, length, room=None, teacher="", teacher_email=""):
+        self.days      = days
+        self.time      = time
+        self.length    = length
+        self.teacher   = teacher
+        self.email     = teacher_email
+        self.room      = room
 
     def on_day(self, date):
         return date.weekday() in self.days
 
     def time_duration(self, date):
         return (datetime.datetime.combine(date, self.time), self.length)
+
+    def to_events(self, days, class_name="", section_kind="", **context):
+        for day in days:
+            if not self.on_day(day): continue
+
+            ev = icalendar.Event()
+            ev.add('summary', '{} {}'.format(class_name, section_kind))
+
+            start, length = self.time_duration(day)
+            ev.add('dtstart', start)
+            ev.add('duration', length)
+
+            if self.teacher or self.email:
+                ev.add('organizer', '{} <{}>'.format(self.teacher, self.email))
+            yield ev
 
     @classmethod
     def from_json_dict(cls, d):
