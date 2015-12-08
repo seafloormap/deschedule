@@ -2,22 +2,24 @@
 
 import cal
 import datetime
+import json
 
-s = cal.Semester.from_json_dict({
-    'start':   '2016-01-25',
-    'end':     '2016-05-10',
-    'classes': {
-        'ABCD 101': {
-            'sections': {
-                'Lecture': {
-                    'days':   [ 'Tue', 'Thu' ],
-                    'time':   '13:00',
-                    'length': 75
+s = cal.Semester.from_json_dict(
+    json.loads('''{
+    "start":   "2016-01-25",
+    "end":     "2016-05-10",
+    "classes": {
+        "ABCD 101": {
+            "sections": {
+                "Lecture": {
+                    "days":   [ "Tue", "Thu" ],
+                    "time":   "13:00",
+                    "length": 75
                 }
             }
         }
     }
-})
+}'''))
 print(s.calendar())
 
 with open('test.ical', 'wb') as f:
