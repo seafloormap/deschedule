@@ -9,21 +9,20 @@ JSON_TIMEF = '%H:%M'
 JSON_WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
 class Semester:
-    def __init__(self, start, end, classes, breaks=[], holidays=[]):
+    def __init__(self, start, end, classes, breaks=[]):
         self.start = start
         self.end   = end
 
         self.classes = classes
 
         self.breaks = breaks
-        self.holidays = holidays
 
     # Generate datetime.date for each day in a semester, including weekends, but
-    # not breaks or holidays.
+    # not breaks.
     def days(self):
         i = self.start
         while i < self.end:
-            if i not in self.breaks and i not in self.holidays: yield i
+            if i not in self.breaks: yield i
             i += datetime.timedelta(days=1)
 
     def class_instances(self):
@@ -57,6 +56,8 @@ class Semester:
                 JSON_DATEF).date()
         args['end']   = datetime.datetime.strptime(d['end'],
                 JSON_DATEF).date()
+        args['breaks'] = [datetime.datetime.strptime(day, JSON_DATEF).date()
+                for day in (d['breaks'] if 'breaks' in d else [])]
         args['classes'] = {name: Class.from_json_dict(properties) for name,
                    properties in d['classes'].items()}
         return cls(**args)
