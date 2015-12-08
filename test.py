@@ -20,7 +20,7 @@ s = cal.Semester.from_json_dict(
         }
     }
 }'''))
-print(s.calendar())
+print(s)
 
 with open('test.ical', 'wb') as f:
   f.write(s.calendar().to_ical())

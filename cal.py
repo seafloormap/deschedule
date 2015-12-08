@@ -46,6 +46,10 @@ class Semester:
 
         return cal
 
+    def __repr__(self):
+        return "<{} '{}'>".format(type(self).__name__,
+                self.start.strftime(JSON_DATEF))
+
     @classmethod
     def from_json_dict(cls, d):
         args = d
