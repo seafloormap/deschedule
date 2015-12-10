@@ -18,19 +18,54 @@ class Semester(db.Model):
 
     start = db.Date()
     end   = db.Date()
+    breaks = db.relationship("Break", backref='semester')
 
-    breaks = db.relationship("Break")
+    def __init__(self, name, start, end, breaks=[]):
+        if type(start) == str:
+            start = datetime.datetime.strptime(start, '%Y-%m-%d').date()
+        if type(end) == str:
+            end = datetime.datetime.strptime(end, '%Y-%m-%d').date()
+        self.name = name.upper()
+        self.start = start
+        self.end = end
+        self.breaks = [Break(*r) for r in breaks]
+
+    def __repr__(self):
+        return "<Semester '{}'>".format(self.name)
 
 class Break(db.Model):
+    __table_args__ = (
+            db.UniqueConstraint('name', 'semester_id',
+                name='_name_semester_uc'),
+        )
     id    = db.Column(db.Integer, primary_key = True)
+
     start = db.Date()
-    end   = db.Column(db.Date, nullable = True)
+    end   = db.Date()
+
+    name = db.Column(db.String(32), nullable = True)
+    semester_id = db.Column(db.Integer, db.ForeignKey('semester.id'))
+
+    def __init__(self, start, end=None, name=None):
+        if type(start) == str:
+            start = datetime.datetime.strptime(start, '%Y-%m-%d').date()
+        if type(end) == str:
+            end = datetime.datetime.strptime(end, '%Y-%m-%d').date()
+
+        self.start = start
+        self.end = end if end != None else start
+
+        self.name = name
 
     def __contains__(self, date):
-        if end != None:
-            return start <= date and date <= end
-        else:
-            return start == date
+        return start <= date and date <= end
+
+    def __repr__(self):
+        rangefmt = '{} to {}'.format(self.start, self.end) \
+                if self.start != self.end \
+                else '{}'.format(self.start)
+
+        return "<Break '{}' {}>".format(self.name, rangefmt)
 
 class Section(db.Model):
     __table_args__ = (
