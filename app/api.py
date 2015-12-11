@@ -65,11 +65,36 @@ def api_new_break(semester):
     app.logger.info('Created break "{}"'.format(b))
     return dict_wrap(None)
 
-@app.route('/api/umbc/semester/<semester>/<class_id>/<int:section_number>')
-def api_section(semester, class_id, section_number):
-    semester = semester.upper()
-    class_id = class_id.upper()
-    return {'semester': semester,
-            'class': class_id,
-            'section_number': section_number
-    }
+@app.route('/api/umbc/semester/<semester>/class/')
+def api_all_classes(semester):
+    s = Semester.query.filter(Semester.name == semester.upper()).one()
+    return dict_wrap(s.sections)
+
+@app.route('/api/umbc/semester/<semester>/class/<class_code>/<int:section_number>',
+        methods=['POST'])
+def api_new_section(semester, class_code, section_number):
+    """Create a new section attached to the Semester. Days are given as
+    'mon/tue/wed/thu/fri/sat/sun' or any combination thereof."""
+    s = Semester.query.filter(Semester.name == semester.upper()).one()
+    section = Section(
+        class_code = class_code,
+        number = section_number,
+        kind = request.form['kind'],
+        days = request.form['days'].split('/'),
+        time = request.form['time'],
+        length = int(request.form['length']) \
+                if 'length' in request.form else None,
+        instructor = request.form['instructor'] \
+                if 'instructor' in request.form else None,
+        email = request.form['email'] \
+                if 'email' in request.form else None,
+        room = request.form['room'] \
+                if 'room' in request.form else None
+    )
+    print(section)
+    s.sections.append(section)
+    db.session.add(s)
+    db.session.add(section)
+    db.session.commit()
+    app.logger.info('Created section "{}"'.format(section))
+    return dict_wrap(None)

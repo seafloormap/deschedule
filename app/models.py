@@ -105,7 +105,9 @@ class Section(db.Model):
     number     = db.Column(db.Integer)
     kind       = db.Column(db.Enum("Lecture", "Laboratory", "Discussion"))
     
-    time      = db.Column(db.Time)
+    time   = db.Column(db.Time)
+    length = db.Column(db.Interval, default = datetime.timedelta(minutes = 75))
+
     monday    = db.Column(db.Boolean(), default=False)
     tuesday   = db.Column(db.Boolean(), default=False)
     wednesday = db.Column(db.Boolean(), default=False)
@@ -116,9 +118,10 @@ class Section(db.Model):
 
     instructor = db.Column(db.String(32), nullable = True)
     email      = db.Column(db.String(32), nullable = True)
+    room       = db.Column(db.String(32), nullable = True)
 
     def __init__(self, class_code, number, kind, time, days, instructor=None,
-            email=None):
+            email=None, room=None, length=75):
         self.class_code = class_code
         self.number     = number
         self.kind       = kind
@@ -128,26 +131,48 @@ class Section(db.Model):
         else:
             self.time = time
 
-        self.monday    = 'mon' in days
-        self.tuesday   = 'tue' in days
-        self.wednesday = 'wed' in days
-        self.thursday  = 'thu' in days
-        self.friday    = 'fri' in days
-        self.saturday  = 'sat' in days
-        self.sunday    = 'sun' in days
+        if type(length) == int:
+            self.length = datetime.timedelta(minutes=length)
+        else:
+            self.length = length
+
+        self.monday    = 'Monday'    in days or 'mon' in days
+        self.tuesday   = 'Tuesday'   in days or 'tue' in days
+        self.wednesday = 'Wednesday' in days or 'wed' in days
+        self.thursday  = 'Thursday'  in days or 'thu' in days
+        self.friday    = 'Friday'    in days or 'fri' in days
+        self.saturday  = 'Saturday'  in days or 'sat' in days
+        self.sunday    = 'Sunday'    in days or 'sun' in days
 
         self.instructor = instructor
         self.email      = email
+        self.room       = room
 
     def __repr__(self):
-        return "<Section '{} {} {}' '{}'>".format(
-                self.department, self.number, self.kind,
-                '/'.join(filter(lambda x: x != None,
-                    ['mon' if self.monday else None,
-                     'tue' if self.tuesday else None,
-                     'wed' if self.wednesday else None,
-                     'thu' if self.thursday else None,
-                     'fri' if self.friday else None,
-                     'sat' if self.saturday else None,
-                     'sun' if self.sunday else None])))
+        return "<Section '{} {} {}'>".format(
+                self.class_code, self.kind, self.number)
 
+    def __json__(self):
+        return {'instructor': self.instructor,
+                'email': self.email,
+                'class_code': self.class_code,
+                'number': self.number,
+                'kind': self.kind,
+                'days': self.days(),
+                'time': self.time.strftime('%H:%M'),
+                'room': self.room
+            }
+
+    def days(self, brief=False):
+        l = filter(lambda x: x != None, [
+                'Monday'    if self.monday    else None,
+                'Tuesday'   if self.tuesday   else None,
+                'Wednesday' if self.wednesday else None,
+                'Thursday'  if self.thursday  else None,
+                'Friday'    if self.friday    else None,
+                'Saturday'  if self.saturday  else None,
+                'Sunday'    if self.sunday    else None])
+        if brief:
+            return map(lambda day: day[:3].lower(), l)
+        else:
+            return l
