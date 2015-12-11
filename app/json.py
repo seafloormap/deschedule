@@ -9,6 +9,8 @@ class ExtendedJSONEncoder(flask.json.JSONEncoder):
             return o.__json__()
         except AttributeError:
             pass
+        if hasattr(o, '__iter__'):
+            return list(o)
         if o.__class__ == datetime.date:
             return o.strftime('%Y-%m-%d')
         if o.__class__ == datetime.time:
