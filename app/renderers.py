@@ -1,5 +1,5 @@
 import flask
-from flask.ext.api.renderers import JSONRenderer
+from flask.ext.api import renderers
 
 import datetime
 
@@ -22,7 +22,7 @@ class ExtendedJSONEncoder(flask.json.JSONEncoder):
 
         return super().default(o)
 
-class ExtendedJSONRenderer(JSONRenderer):
+class ExtendedJSONRenderer(renderers.JSONRenderer):
     def render(self, data, media_type, **options):
         # Requested indentation may be set in the Accept header.
         try:

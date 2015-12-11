@@ -4,9 +4,9 @@ from flask.ext.api import FlaskAPI, status, exceptions
 
 app = FlaskAPI(__name__)
 
-from app import json
+from app import renderers
 app.config['DEFAULT_RENDERERS'] = [
-        'app.json.ExtendedJSONRenderer',
+        'app.renderers.ExtendedJSONRenderer',
         'flask.ext.api.renderers.BrowsableAPIRenderer'
 ]
 
