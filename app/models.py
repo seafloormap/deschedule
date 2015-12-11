@@ -20,9 +20,9 @@ class Semester(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(16), unique=True)
 
-    start = db.Date()
-    end   = db.Date()
-    breaks = db.relationship("Break", backref='semester', lazy='joined')
+    start  = db.Column(db.Date)
+    end    = db.Column(db.Date)
+    breaks = db.relationship("Break", backref = 'semester', lazy = 'joined')
 
     def __init__(self, name, start, end, breaks=[]):
         if type(start) == str:
@@ -51,8 +51,8 @@ class Break(db.Model):
         )
     id    = db.Column(db.Integer, primary_key = True)
 
-    start = db.Date()
-    end   = db.Date()
+    start = db.Column(db.Date)
+    end   = db.Column(db.Date)
 
     name = db.Column(db.String(32), nullable = True)
     semester_id = db.Column(db.Integer, db.ForeignKey('semester.id'))
