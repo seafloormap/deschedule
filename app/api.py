@@ -98,3 +98,12 @@ def api_new_section(semester, class_code, section_number):
     db.session.commit()
     app.logger.info('Created section "{}"'.format(section))
     return dict_wrap(None)
+
+@app.route('/api/umbc/semester/<semester>/class/<class_code>/<int:section_number>/')
+def api_section(semester, class_code, section_number):
+    section = Section.query.join(Semester) \
+            .filter(Semester.name == semester.upper()) \
+            .filter(db.and_(Section.class_code == class_code,
+                            Section.number == section_number)).one()
+    print(section)
+    return dict_wrap(section)
