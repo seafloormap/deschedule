@@ -1,4 +1,4 @@
-from app import db
+from app import db, timezone
 
 import datetime
 
@@ -159,7 +159,7 @@ class Section(db.Model):
                 'number': self.number,
                 'kind': self.kind,
                 'days': self.days(),
-                'time': self.time.strftime('%H:%M'),
+                'time': self.time.replace(tzinfo=timezone.UMBC_TZINFO),
                 'room': self.room
             }
 
@@ -176,3 +176,27 @@ class Section(db.Model):
             return map(lambda day: day[:3].lower(), l)
         else:
             return l
+
+    def on_weekday(self, date):
+        """Return true if the section is scheduled to meet on a given day,
+        using only the Weekday to check."""
+        # Check if the weekday matches the output from days()
+        return date.strftime("%A") in self.days()
+
+    def events(self):
+        for day in self.semester.days():
+            if not self.on_weekday(day): continue
+            event = {
+                'summary': '{} {}'.format(self.class_code, self.kind),
+                'dtstart': datetime.datetime.combine(day,
+                    self.time.replace(tzinfo=timezone.UMBC_TZINFO)),
+                'duration': self.length,
+            }
+            if self.instructor or self.email:
+                event['organizer'] = '{} <{}>'.format(
+                        self.instructor if self.instructor else '',
+                        self.email if self.email else '')
+            if self.room:
+                event['location'] = self.room
+
+            yield event

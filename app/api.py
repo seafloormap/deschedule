@@ -107,3 +107,12 @@ def api_section(semester, class_code, section_number):
                             Section.number == section_number)).one()
     print(section)
     return dict_wrap(section)
+
+@app.route('/api/umbc/semester/<semester>/class/<class_code>/<int:section_number>/events/')
+def api_section_events(semester, class_code, section_number):
+    """List calendar events for a particular section of a class."""
+    section = Section.query.join(Semester) \
+            .filter(Semester.name == semester.upper()) \
+            .filter(db.and_(Section.class_code == class_code,
+                            Section.number == section_number)).one()
+    return dict_wrap(section.events())
