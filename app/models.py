@@ -79,7 +79,10 @@ class Break(db.Model):
         return "<Break '{}' {}>".format(self.name, rangefmt)
 
     def __json__(self):
-        return public_dict(self)
+        return {'start': self.start,
+                'end': self.end,
+                'name': self.name
+            }
 
 class Section(db.Model):
     __table_args__ = (

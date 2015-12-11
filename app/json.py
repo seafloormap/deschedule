@@ -1,6 +1,8 @@
 import flask
 from flask.ext.api.renderers import JSONRenderer
 
+import datetime
+
 class ExtendedJSONEncoder(flask.json.JSONEncoder):
     def default(self, o):
         try:
