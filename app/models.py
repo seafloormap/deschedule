@@ -2,6 +2,10 @@ from app import db
 
 import datetime
 
+def public_dict(o, exclude=('_',)):
+    return {k: v for k, v in o.__class__.__dict__.items()
+            if not (k.startswith(exclude) or hasattr(v, '__call__'))}
+
 schedule_sections = db.Table('schedule_sections',
         db.Column('schedule_id', db.Integer, db.ForeignKey('schedule.id')),
         db.Column('section_id', db.Integer, db.ForeignKey('section.id')),
@@ -18,7 +22,7 @@ class Semester(db.Model):
 
     start = db.Date()
     end   = db.Date()
-    breaks = db.relationship("Break", backref='semester')
+    breaks = db.relationship("Break", backref='semester', lazy='joined')
 
     def __init__(self, name, start, end, breaks=[]):
         if type(start) == str:
@@ -32,6 +36,13 @@ class Semester(db.Model):
 
     def __repr__(self):
         return "<Semester '{}'>".format(self.name)
+
+    def __json__(self):
+        return {'name': self.name,
+                'start': str(self.start),
+                'end': str(self.end),
+                'breaks': self.breaks
+            }
 
 class Break(db.Model):
     __table_args__ = (
@@ -66,6 +77,9 @@ class Break(db.Model):
                 else '{}'.format(self.start)
 
         return "<Break '{}' {}>".format(self.name, rangefmt)
+
+    def __json__(self):
+        return public_dict(self)
 
 class Section(db.Model):
     __table_args__ = (
