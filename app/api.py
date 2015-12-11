@@ -38,7 +38,27 @@ def api_new_semester(semester):
     db.session.add(s)
     db.session.commit()
     app.logger.info('Created semester "{}"'.format(s))
-    return {'status': 'successful'}
+    return dict_wrap(None)
+
+@app.route('/api/umbc/semester/<semester>/break/', methods=['GET'])
+def api_all_breaks(semester):
+    s = Semester.query.filter(Semester.name == semester.upper()).one()
+    return dict_wrap(s.breaks)
+
+@app.route('/api/umbc/semester/<semester>/break/', methods=['POST'])
+def api_new_break(semester):
+    s = Semester.query.filter(Semester.name == semester.upper()).one()
+    b = Break(
+        name  = request.form['name'],
+        start = request.form['start'],
+        end   = request.form['end']
+    )
+    s.breaks.append(b)
+    db.session.add(s)
+    db.session.add(b)
+    db.session.commit()
+    app.logger.info('Created break "{}"'.format(b))
+    return dict_wrap(None)
 
 @app.route('/api/umbc/semester/<semester>/<class_id>/<int:section_number>')
 def api_section(semester, class_id, section_number):
