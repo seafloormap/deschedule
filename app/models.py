@@ -44,6 +44,13 @@ class Semester(db.Model):
                 'breaks': self.breaks
             }
 
+    def days(self):
+        day = self.start
+        while day <= self.end:
+            if all((day not in b for b in self.breaks)):
+                yield day
+            day += datetime.timedelta(days=1)
+
 class Break(db.Model):
     __table_args__ = (
             db.UniqueConstraint('name', 'semester_id',
@@ -69,7 +76,7 @@ class Break(db.Model):
         self.name = name
 
     def __contains__(self, date):
-        return start <= date and date <= end
+        return self.start <= date and date <= self.end
 
     def __repr__(self):
         rangefmt = '{} to {}'.format(self.start, self.end) \

@@ -40,6 +40,11 @@ def api_new_semester(semester):
     app.logger.info('Created semester "{}"'.format(s))
     return dict_wrap(None)
 
+@app.route('/api/umbc/semester/<semester>/days/')
+def api_semester_days(semester):
+    s = Semester.query.filter(Semester.name == semester.upper()).one()
+    return dict_wrap(s.days())
+
 @app.route('/api/umbc/semester/<semester>/break/', methods=['GET'])
 def api_all_breaks(semester):
     s = Semester.query.filter(Semester.name == semester.upper()).one()
