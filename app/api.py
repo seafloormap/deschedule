@@ -28,7 +28,7 @@ def api_semester(semester):
     return dict_wrap(s)
 
 # Create a new semester listing.
-@app.route('/api/umbc/semester/<semester>', methods=['POST'])
+@app.route('/api/umbc/semester/<semester>/', methods=['POST'])
 def api_new_semester(semester):
     s = Semester(
             name  = semester,
