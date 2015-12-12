@@ -1,8 +1,11 @@
 from app import app, db
 from app.models import *
+from app.renderers import *
 
 import flask
 from flask import request
+from flask.ext.api.decorators import set_renderers
+from flask.ext.api.renderers import BrowsableAPIRenderer
 
 import functools
 
@@ -128,6 +131,7 @@ def api_section(semester, class_code, section_number):
     return section
 
 @app.route('/api/umbc/semester/<semester>/class/<class_code>/<int:section_number>/events/')
+@set_renderers(ExtendedJSONRenderer, BrowsableAPIRenderer, ICalendarRenderer)
 @api_response
 def api_section_events(semester, class_code, section_number):
     """List calendar events for a particular section of a class."""

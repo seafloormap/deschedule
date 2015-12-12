@@ -2,6 +2,7 @@ import flask
 from flask.ext.api import renderers
 
 import datetime
+import icalendar
 
 class ExtendedJSONEncoder(flask.json.JSONEncoder):
     def default(self, o):
@@ -35,3 +36,20 @@ class ExtendedJSONRenderer(renderers.JSONRenderer):
                 cls=ExtendedJSONEncoder,
                 ensure_ascii=False,
                 indent=indent)
+
+class ICalendarRenderer(renderers.BaseRenderer):
+    """Render an iterable collection of dictionaries in iCalendar format."""
+    media_type = 'text/calendar'
+
+    def render(self, data, media_type, **options):
+        # Data must be an iterable collection of dictionaries.
+        cal = icalendar.Calendar()
+        cal.add('prodid', 'https://github.com/alexander-bauer/deschedule')
+        cal.add('version', '2.0')
+        for event_dict in data['data']:
+            event = icalendar.Event()
+            for key, value in event_dict.items():
+                event.add(key, value)
+            cal.add_component(event)
+
+        return cal.to_ical()
