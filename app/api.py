@@ -34,16 +34,8 @@ def api_all_semesters():
     semesters = Semester.query.all()
     return semesters
 
-@app.route('/api/umbc/semester/<semester>/', methods=['GET'])
-@api_response
-def api_semester(semester):
-    semester = semester.upper()
-    s = Semester.query.filter(Semester.name == semester).one_or_none()
-
-    return s
-
 # Create a new semester listing.
-@app.route('/api/umbc/semester/<semester>/', methods=['POST'])
+@app.route('/api/umbc/semester/<semester>', methods=['POST'])
 @api_response
 def api_new_semester(semester):
     s = Semester(
@@ -55,6 +47,14 @@ def api_new_semester(semester):
     db.session.commit()
     app.logger.info('Created semester "{}"'.format(s))
     return None
+
+@app.route('/api/umbc/semester/<semester>/', methods=['GET'])
+@api_response
+def api_semester(semester):
+    semester = semester.upper()
+    s = Semester.query.filter(Semester.name == semester).one_or_none()
+
+    return s
 
 @app.route('/api/umbc/semester/<semester>/days/')
 @api_response
