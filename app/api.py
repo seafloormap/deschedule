@@ -4,7 +4,19 @@ from app.models import *
 import flask
 from flask import request
 
-def dict_wrap(return_values, status='ok'):
+import functools
+
+def api_response(f):
+    @functools.wraps(f)
+    def func_wrapper(*args, **kwargs):
+        resp = f(*args, **kwargs)
+        if type(resp) != dict or 'data' not in resp:
+            return {'data': resp}
+        else:
+            return resp
+    return func_wrapper
+
+def api_wrap(return_values, status='ok'):
     return {'status': status, 'data': return_values}
 
 ## API Endpoints
@@ -14,21 +26,22 @@ def dict_wrap(return_values, status='ok'):
 
 # Endpoint for browsing all listed semesters.
 @app.route('/api/umbc/semester/')
+@api_response
 def api_all_semesters():
     semesters = Semester.query.all()
-    return dict_wrap(semesters)
+    return semesters
 
 @app.route('/api/umbc/semester/<semester>/', methods=['GET'])
+@api_response
 def api_semester(semester):
     semester = semester.upper()
     s = Semester.query.filter(Semester.name == semester).one_or_none()
 
-    # It is necessary to return a dictionary, for some reason, so try to JSON
-    # encode.
-    return dict_wrap(s)
+    return s
 
 # Create a new semester listing.
 @app.route('/api/umbc/semester/<semester>/', methods=['POST'])
+@api_response
 def api_new_semester(semester):
     s = Semester(
             name  = semester,
@@ -38,14 +51,16 @@ def api_new_semester(semester):
     db.session.add(s)
     db.session.commit()
     app.logger.info('Created semester "{}"'.format(s))
-    return dict_wrap(None)
+    return None
 
 @app.route('/api/umbc/semester/<semester>/days/')
+@api_response
 def api_semester_days(semester):
     s = Semester.query.filter(Semester.name == semester.upper()).one()
-    return dict_wrap(s.days())
+    return s.days()
 
 @app.route('/api/umbc/semester/<semester>/break', methods=['POST'])
+@api_response
 def api_new_break(semester):
     s = Semester.query.filter(Semester.name == semester.upper()).one()
     b = Break(
@@ -58,20 +73,23 @@ def api_new_break(semester):
     db.session.add(b)
     db.session.commit()
     app.logger.info('Created break "{}"'.format(b))
-    return dict_wrap(None)
+    return None
 
 @app.route('/api/umbc/semester/<semester>/break/', methods=['GET'])
+@api_response
 def api_all_breaks(semester):
     s = Semester.query.filter(Semester.name == semester.upper()).one()
-    return dict_wrap(s.breaks)
+    return s.breaks
 
 @app.route('/api/umbc/semester/<semester>/class/')
+@api_response
 def api_all_classes(semester):
     s = Semester.query.filter(Semester.name == semester.upper()).one()
-    return dict_wrap(s.sections)
+    return s.sections
 
 @app.route('/api/umbc/semester/<semester>/class/<class_code>/<int:section_number>',
         methods=['POST'])
+@api_response
 def api_new_section(semester, class_code, section_number):
     """Create a new section attached to the Semester. Days are given as
     'mon/tue/wed/thu/fri/sat/sun' or any combination thereof."""
@@ -97,22 +115,24 @@ def api_new_section(semester, class_code, section_number):
     db.session.add(section)
     db.session.commit()
     app.logger.info('Created section "{}"'.format(section))
-    return dict_wrap(None)
+    return None
 
 @app.route('/api/umbc/semester/<semester>/class/<class_code>/<int:section_number>/')
+@api_response
 def api_section(semester, class_code, section_number):
     section = Section.query.join(Semester) \
             .filter(Semester.name == semester.upper()) \
             .filter(db.and_(Section.class_code == class_code,
                             Section.number == section_number)).one()
     print(section)
-    return dict_wrap(section)
+    return section
 
 @app.route('/api/umbc/semester/<semester>/class/<class_code>/<int:section_number>/events/')
+@api_response
 def api_section_events(semester, class_code, section_number):
     """List calendar events for a particular section of a class."""
     section = Section.query.join(Semester) \
             .filter(Semester.name == semester.upper()) \
             .filter(db.and_(Section.class_code == class_code,
                             Section.number == section_number)).one()
-    return dict_wrap(section.events())
+    return section.events()
