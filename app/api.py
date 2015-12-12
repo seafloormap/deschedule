@@ -90,6 +90,17 @@ def api_all_classes(semester):
     s = Semester.query.filter(Semester.name == semester.upper()).one()
     return s.sections
 
+@app.route('/api/umbc/semester/<semester>/class/<class_code>/')
+@api_response
+def api_class_sections(semester, class_code):
+    """List all sections for the class code in the semester."""
+    sections = Section.query.join(Semester)\
+            .filter(Semester.name == semester.upper())\
+            .filter(Section.class_code == class_code)\
+            .order_by(Section.number)\
+            .all()
+    return sections
+
 @app.route('/api/umbc/semester/<semester>/class/<class_code>/<int:section_number>',
         methods=['POST'])
 @api_response
