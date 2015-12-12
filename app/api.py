@@ -7,7 +7,9 @@ from flask import request
 from flask.ext.api.decorators import set_renderers
 from flask.ext.api.renderers import BrowsableAPIRenderer
 
-import functools
+from sqlalchemy.exc import DBAPIError
+
+import functools, itertools
 
 def api_response(f):
     @functools.wraps(f)
@@ -55,6 +57,66 @@ def api_semester(semester):
     s = Semester.query.filter(Semester.name == semester).one_or_none()
 
     return s
+
+@app.route('/api/umbc/semester/<semester>/schedule/')
+@api_response
+def api_schedule(semester):
+    """Build a per-session schedule using the `sections` URL parameter. It must
+    be formatted similarly to `sections=CODE100.01,CODE110.04`, which would
+    select the class CODE100 section 1 and CODE110 section 4."""
+    # Get the pairs of class codes and section numbers.
+    section_pairs = [tuple(pair.split('.')) for pair in
+            request.args.get('sections').split(',')]
+
+    try:
+        sections = Section.query.join(Semester) \
+                .filter(Semester.name == semester.upper()) \
+                .filter(db.tuple_(Section.class_code, Section.number)\
+                    .in_(section_pairs)).all()
+    except DBAPIError:
+        app.logger.info("DB Backend does not support compound key 'IN' queries, \
+reverting to composed 'OR/AND' query.")
+        # Because the backend does not support in_ for tuples, we abuse *args
+        # and list comprehensions to create a subsitute query.
+        sections = Section.query.join(Semester) \
+                .filter(Semester.name == semester.upper()) \
+                .filter(db.or_(
+                    *tuple((db.and_(
+                        Section.class_code == code, Section.number == number)
+                        for code, number in section_pairs)))) \
+                .all()
+
+    return sections
+
+@app.route('/api/umbc/semester/<semester>/schedule/events/')
+@set_renderers(ExtendedJSONRenderer, BrowsableAPIRenderer, ICalendarRenderer)
+@api_response
+def api_schedule_events(semester):
+    """Build a per-session schedule just like the above endpoint, but also
+    generate all events. Also can generate iCalendar format output."""
+    # Get the pairs of class codes and section numbers.
+    section_pairs = [tuple(pair.split('.')) for pair in
+            request.args.get('sections').split(',')]
+
+    try:
+        sections = Section.query.join(Semester) \
+                .filter(Semester.name == semester.upper()) \
+                .filter(db.tuple_(Section.class_code, Section.number)\
+                    .in_(section_pairs)).all()
+    except DBAPIError:
+        app.logger.info("DB Backend does not support compound key 'IN' queries, \
+reverting to composed 'OR/AND' query.")
+        # Because the backend does not support in_ for tuples, we abuse *args
+        # and list comprehensions to create a subsitute query.
+        sections = Section.query.join(Semester) \
+                .filter(Semester.name == semester.upper()) \
+                .filter(db.or_(
+                    *tuple((db.and_(
+                        Section.class_code == code, Section.number == number)
+                        for code, number in section_pairs)))) \
+                .all()
+
+    return itertools.chain(*(section.events() for section in sections))
 
 @app.route('/api/umbc/semester/<semester>/days/')
 @api_response
