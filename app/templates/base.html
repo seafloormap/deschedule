@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+  <head>
+    {%- block head %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="//cdn.muicss.com/mui-0.2.9/css/mui.min.css" rel="stylesheet" type="text/css" />
+    <script src="//cdn.muicss.com/mui-0.2.9/js/mui.min.js"></script>
+    <link href="{{ url_for('static', filename='base.css') }}" rel="stylesheet" type="text/css" />
+    {%- endblock %}
+  </head>
+  <body>
+    <header class="mui-appbar mui--z1">
+      <div class="mui-container">
+        <table width="100%">
+          <tr class="mui--appbar-height">
+            {%- block appbar %}
+            <td class="mui--text-title">
+              {% block appbar_title %}Deschedule{% endblock %}
+            </td>
+            <td align="right">
+              <ul class="mui-list--inline mui--text-body2">
+                {%- block appbar_elements %}
+                {%- endblock %}
+              </ul>
+            </td>
+            {%- endblock %}
+          </tr>
+        </table>
+      </div>
+    </header>
+    <div id="content-wrapper">
+      <div class="mui--appbar-height"></div>
+      <div id="content-bar">
+        {%- block content %}{%- endblock %}
+      </div>
+    </div>
+    <footer>
+        <div class="mui-container mui--text-center">
+          {%- block footer %}
+          Developed in the Open on
+          <a href="https://github.com/alexander-bauer/deschedule">GitHub</a>
+          {%- endblock %}
+        </div>
+    </footer>
+  </body>
+</html>
