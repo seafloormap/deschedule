@@ -5,7 +5,6 @@ from app.renderers import *
 import flask
 from flask import request
 from flask.ext.api.decorators import set_renderers
-from flask.ext.api.renderers import BrowsableAPIRenderer
 
 from sqlalchemy.exc import DBAPIError
 
@@ -89,7 +88,7 @@ reverting to composed 'OR/AND' query.")
     return sections
 
 @app.route('/api/umbc/semester/<semester>/schedule/events/')
-@set_renderers(ExtendedJSONRenderer, BrowsableAPIRenderer, ICalendarRenderer)
+@set_renderers(ExtendedJSONRenderer, MyBrowsableAPIRenderer, ICalendarRenderer)
 @api_response
 def api_schedule_events(semester):
     """Build a per-session schedule just like the above endpoint, but also
@@ -204,7 +203,7 @@ def api_section(semester, class_code, section_number):
     return section
 
 @app.route('/api/umbc/semester/<semester>/class/<class_code>/<int:section_number>/events/')
-@set_renderers(ExtendedJSONRenderer, BrowsableAPIRenderer, ICalendarRenderer)
+@set_renderers(ExtendedJSONRenderer, MyBrowsableAPIRenderer, ICalendarRenderer)
 @api_response
 def api_section_events(semester, class_code, section_number):
     """List calendar events for a particular section of a class."""

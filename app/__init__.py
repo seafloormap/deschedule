@@ -7,10 +7,11 @@ app = FlaskAPI(__name__)
 from app import renderers
 app.config['DEFAULT_RENDERERS'] = [
         'app.renderers.ExtendedJSONRenderer',
-        'flask.ext.api.renderers.BrowsableAPIRenderer'
+        'app.renderers.MyBrowsableAPIRenderer'
 ]
 
 app.config.from_object('config')
 db = SQLAlchemy(app)
 
-from app import api, views, models
+from app import api
+from app import views, models

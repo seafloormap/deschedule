@@ -37,6 +37,9 @@ class ExtendedJSONRenderer(renderers.JSONRenderer):
                 ensure_ascii=False,
                 indent=indent)
 
+class MyBrowsableAPIRenderer(renderers.BrowsableAPIRenderer):
+    template = 'api_base.html'
+
 class ICalendarRenderer(renderers.BaseRenderer):
     """Render an iterable collection of dictionaries in iCalendar format."""
     media_type = 'text/calendar'
