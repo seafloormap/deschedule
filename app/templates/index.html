@@ -5,6 +5,27 @@
 <title>Deschedule</title>
 {% endblock %}
 
+{% block scripts %}
+{{ super() }}
+
+<script type="text/javascript">
+$(document).ready(function() {
+  console.log('Loading class sections...');
+  api_classes('umbc', 'SPRING2016', function(resp) {
+    var items = [];
+    console.log(resp);
+    $.each(resp['data'], function(key, val) {
+      console.log(val);
+      items.push('<li><div class="section">' + val.class_code
+          + ' section ' + val.number + '</div></li>');
+    });
+
+    $('#sections').html(items.join(""));
+  });
+});
+</script>
+{% endblock %}
+
 {% block content %}
 {{ super() }}
 <div id="title" class="mui--text-center">
@@ -19,5 +40,7 @@
   Enter your school, the classes (and section numbers) that you are in, and import
   the resulting URL into your calendar app.
 </div>
+
+<ul id="sections"></ul>
 
 {% endblock %}
