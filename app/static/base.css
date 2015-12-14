@@ -60,7 +60,15 @@ footer {
 /**
  * Section styling
  */
+ul#sections {
+  list-style-type: none;
+  list-style-position: outside;
+  padding: 0px;
+  margin: 15px;
+}
+
 .section {}
+
 .section-header {
   padding-top: 2px;
   padding-bottom: 2px;
