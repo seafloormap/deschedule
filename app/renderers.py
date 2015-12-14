@@ -13,11 +13,11 @@ class ExtendedJSONEncoder(flask.json.JSONEncoder):
         if hasattr(o, '__iter__'):
             return list(o)
         if o.__class__ == datetime.datetime:
-            return o.strftime('%a, %d %b %Y %H:%M:%S %Z')
+            return o.strftime('%a, %d %b %Y %H:%M %Z')
         if o.__class__ == datetime.date:
             return o.strftime('%Y-%m-%d')
         if o.__class__ == datetime.time:
-            return o.strftime('%H:%M:%S %Z')
+            return o.strftime('%H:%M %Z')
         if o.__class__ == datetime.timedelta:
             return str(o)
 
