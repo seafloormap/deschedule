@@ -56,3 +56,24 @@ footer {
   border-top: 1px solid #e0e0e0;
   padding-top: 35px;
 }
+
+/**
+ * Section styling
+ */
+.section {}
+.section-header {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.section-class-code {
+  font-size: larger;
+  margin-right: 15px;
+}
+.section-kind {
+  font-size: large;
+  margin-right: 5px;
+}
+.section-number {
+  font-size: large;
+}

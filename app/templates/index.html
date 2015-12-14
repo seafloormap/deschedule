@@ -13,11 +13,8 @@ $(document).ready(function() {
   console.log('Loading class sections...');
   api_classes('umbc', 'SPRING2016', function(resp) {
     var items = [];
-    console.log(resp);
     $.each(resp['data'], function(key, val) {
-      console.log(val);
-      items.push('<li><div class="section">' + val.class_code
-          + ' section ' + val.number + '</div></li>');
+      items.push('<li>' + style_section(val) + '</li>');
     });
 
     $('#sections').html(items.join(""));
