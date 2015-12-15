@@ -67,7 +67,36 @@ ul#sections {
   margin: 15px;
 }
 
-.section {}
+.section {
+  color: black;
+  text-align: left;
+  width: 100%;
+
+  outline: 0;
+  overflow: hidden;
+
+  border: none;
+  touch-action: manipulation;
+  background-image: none;
+
+  transition: all 0.2s ease-in-out;
+}
+
+.section:hover,.section:focus,.section:active {
+  outline: none;
+  color: black;
+
+  text-decoration: none;
+  background-color: #ccf;
+}
+
+.section::-mos-focus-inner {
+  border: 0;
+}
+
+.section .mui-panel {
+  background-color: inherit;
+}
 
 .section-header {
   padding-top: 2px;
