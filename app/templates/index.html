@@ -18,6 +18,9 @@ $(document).ready(function() {
     });
 
     $('#sections').html(items.join(""));
+    $('.section').click(function(event) {
+      $(this).toggleClass('section-selected');
+    });
   });
 });
 </script>

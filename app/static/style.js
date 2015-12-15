@@ -1,5 +1,5 @@
 function style_section(section) {
-  return '<a href="#" class="section"><div class="mui-panel">' +
+  return '<div class="mui-panel section">' +
            '<div class="section-header mui-row">' +
              '<div class="mui-col-md-4">' +
                '<span class="section-class-code mui--align-middle">' + section.class_code + '</span>' +
@@ -27,7 +27,7 @@ function style_section(section) {
                '</span>' +
              '</div>' +
            '</div>' +
-         '</div></a>';
+         '</div>';
 }
 
 console.log('load');

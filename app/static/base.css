@@ -82,11 +82,21 @@ ul#sections {
   transition: all 0.2s ease-in-out;
 }
 
-.section:hover,.section:focus,.section:active {
+.section:hover,.section:active {
   outline: none;
   color: black;
 
   text-decoration: none;
+  background-color: #eef;
+}
+
+.section:focus {
+  outline: none;
+  color: black;
+  text-decoration: none;
+}
+
+.section-selected,.section-selected:hover {
   background-color: #ccf;
 }
 
