@@ -8,6 +8,11 @@ def main(args):
     app.config['SQLALCHEMY_DATABASE_URI'] = args.db
     app.config['SQLALCHEMY_MIGRATE_REPO'] = args.migrate
     app.config.from_object(args.config)
+
+    if args.create:
+        from app import db
+        db.create_all()
+
     app.run(debug=args.debug)
 
 def parse(args):
@@ -15,6 +20,7 @@ def parse(args):
     parser.add_argument('config', default='config', nargs='?')
     parser.add_argument('--db', default='sqlite:///' + os.path.join(basedir, 'app.db'))
     parser.add_argument('--migrate', default=os.path.join(basedir, 'db_repository'))
+    parser.add_argument('--create', action='store_false', default=True)
     parser.add_argument('--debug', action='store_true', default=False)
     return parser.parse_args(args)
 
