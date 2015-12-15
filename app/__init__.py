@@ -10,7 +10,6 @@ app.config['DEFAULT_RENDERERS'] = [
         'app.renderers.MyBrowsableAPIRenderer'
 ]
 
-app.config.from_object('config')
 db = SQLAlchemy(app)
 
 from app import api
