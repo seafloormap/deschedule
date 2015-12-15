@@ -2,9 +2,13 @@
 
 CURL=$(which curl)
 CURL_POST="$CURL -X POST"
-SEMESTER='http://localhost:5000/api/umbc/semester'
-BREAK='http://localhost:5000/api/umbc/semester/spring2016/break'
-CLASS='http://localhost:5000/api/umbc/semester/spring2016/class'
+
+HOST='http://localhost:5000'
+#HOST='http://deschedule.hackafe.net'
+
+SEMESTER="$HOST/api/umbc/semester"
+BREAK="$HOST/api/umbc/semester/spring2016/break"
+CLASS="$HOST/api/umbc/semester/spring2016/class"
 
 $CURL_POST $SEMESTER/spring2016 \
     -d start=2016-01-27 \
