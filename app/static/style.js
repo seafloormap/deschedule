@@ -1,5 +1,6 @@
 function style_section(section) {
-  return '<div class="mui-panel section">' +
+  return '<div class="mui-panel section" data-classcode="' +
+             section.class_code + '" data-number="' + section.number + '">' +
            '<div class="section-header mui-row">' +
              '<div class="mui-col-md-4">' +
                '<span class="section-class-code mui--align-middle">' + section.class_code + '</span>' +
@@ -30,4 +31,6 @@ function style_section(section) {
          '</div>';
 }
 
-console.log('load');
+function any_sections_selected() {
+  return ($('.section-selected').length > 0);
+}

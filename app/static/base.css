@@ -100,7 +100,7 @@ ul#sections {
   background-color: #ccf;
 }
 
-.section::-mos-focus-inner {
+.section::-moz-focus-inner {
   border: 0;
 }
 
