@@ -9,22 +9,6 @@
 {{ super() }}
 
 <script type="text/javascript">
-function make_calendar_button() {
-  if(any_sections_selected()) {
-    section_ids = []
-    $('.section-selected').each(function(index, section) {
-      section_ids.push($(this).attr('data-classcode') + '.' + $(this).attr('data-number'));
-    });
-
-    ical_btn = $('#to_ical');
-    ical_btn.removeAttr('disabled');
-    ical_btn.attr('href', url_api_schedule_events('umbc', 'SPRING2016', section_ids));
-  } else {
-    ical_btn.attr('disabled', 'disabled');
-    ical_btn.attr('href', '');
-  }
-}
-
 $(document).ready(function() {
   console.log('Loading class sections...');
   api_classes('umbc', 'SPRING2016', function(resp) {
@@ -37,12 +21,33 @@ $(document).ready(function() {
     $('.section').click(function(event) {
       $(this).toggleClass('section-selected');
     });
-    $('.section').click(make_calendar_button);
+    $('.section').click(function() {
+      if(any_sections_selected()) {
+        $('#to_ical').removeAttr('disabled');
+      } else {
+        $('#to_ical').attr('disabled', 'disabled');
+      }
+    });
   });
 });
+
 $(document).ready(function() {
   $('#to_ical').click(function(event) {
-    location.href = $(this).attr('href');
+    section_ids = []
+    $('.section-selected').each(function(index, section) {
+      section_ids.push($(this).attr('data-classcode') + '.' + $(this).attr('data-number'));
+    });
+
+    params = {
+      'semester': 'SPRING2016',
+      'sections': section_ids.join(',')
+    };
+
+    param_arr = []
+    for(key in params) {
+      param_arr.push(key + '=' + params[key]);
+    }
+    location.href = 'schedule/?' + param_arr.join('&');
   });
 });
 </script>
