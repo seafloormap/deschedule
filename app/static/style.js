@@ -1,3 +1,7 @@
+function style_semester_li(semester) {
+  return '<a class="semester">' + semester.name + '</a>';
+}
+
 function style_section(section) {
   return '<div class="mui-panel section" data-classcode="' +
              section.class_code + '" data-number="' + section.number + '">' +

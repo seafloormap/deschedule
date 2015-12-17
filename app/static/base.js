@@ -1,7 +1,20 @@
+function fill_all_semesters(school, callback) {
+  console.log('Loading semesters...');
+  api_semesters(school, function(resp) {
+    var items = [];
+    $.each(resp['data'], function(key, value) {
+      items.push('<li>' + style_semester_li(val) + '</li>');
+    });
+    $('ul.semesters').html(items.join(''));
+    console.log('Loaded semesters.');
+
+    callback(resp);
+  });
+}
+
 function fill_all_sections(school, semester, callback) {
   console.log('Loading class sections...');
   api_classes(school, semester, function(resp) {
-    console.log('got resp');
     var items = [];
     $.each(resp['data'], function(key, val) {
       items.push('<li>' + style_section(val) + '</li>');

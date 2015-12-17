@@ -9,6 +9,13 @@
 {{ super() }}
 
 <script type="text/javascript">
+
+$(document).ready(function() {
+  $('ul.schools li a').click(function() {
+    $('#school_dropdown_label').html($(this).html());
+  });
+});
+
 $(document).ready(function() {
   fill_all_sections('umbc', 'spring2016', function(resp) {
     $('.section').click(function(event) {
