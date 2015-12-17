@@ -155,3 +155,47 @@ ul#sections {
 .section-number {
   font-size: large;
 }
+
+/**
+ * Animations
+ */
+.loading .loading-circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 12px;
+  border: 2px solid black;
+}
+.loading .mask {
+  width: 12px;
+  height: 12px;
+  overflow: hidden;
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.loading .spinner {
+  left: 1px;
+  top: 1px;
+  width: 26px;
+  height: 26px;
+  animation: spin 1s infinite ease;
+}
+.loading {
+  top: 50%;
+  left: 50px;
+  width: 28px;
+  height: 28px;
+  margin: -14px 0 0 -14px;
+}
+
+.loader {
+  margin: auto;
+  opacity: 1;
+  width: 14px;
+  transition: opacity 2s ease;
+}
+
+.loader.finished {
+  opacity: 0;
+}
