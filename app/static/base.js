@@ -1,28 +1,30 @@
+var semesters = [];
 function fill_all_semesters(school, callback) {
   console.log('Loading semesters...');
   api_semesters(school, function(resp) {
-    var items = [];
+    semesters = [];
     $.each(resp['data'], function(key, value) {
-      items.push('<li>' + style_semester_li(val) + '</li>');
+      semesters.push('<li>' + style_semester_li(val) + '</li>');
     });
-    $('ul.semesters').html(items.join(''));
+    $('ul.semesters').html(semesters.join(''));
     console.log('Loaded semesters.');
 
     callback(resp);
   });
 }
 
+var sections = [];
 function fill_all_sections(school, semester, callback) {
   console.log('Loading class sections...');
   $('#results .loader').removeClass('finished');
   api_classes(school, semester, function(resp) {
-    var items = [];
+    sections = [];
     $.each(resp['data'], function(key, val) {
-      items.push('<li>' + style_section(val) + '</li>');
+      sections.push('<li>' + style_section(val) + '</li>');
     });
 
     $('#results .loader').addClass('finished');
-    $('#sections').html(items.join(""));
+    $('#sections').html(sections.join(""));
     console.log('Loaded class sections.');
 
     callback(resp);
@@ -36,7 +38,6 @@ function fill_some_sections(school, semester, sections) {
     $.each(resp['data'], function(key, val) {
       items.push('<li>' + style_section(val) + '</li>');
     });
-
     $('#sections').html(items.join(""));
     console.log('Loaded class sections.');
   });

@@ -77,18 +77,45 @@ $(document).ready(function() {
   the resulting URL into your calendar app.
 </div>
 
+<ul id="sections-selected"></ul>
+
 <div id="control-box">
-  <div class="mui--text-center">
-    <button id="to_ical" class="mui-btn mui-btn--raised" disabled>Make iCalendar</button>
-  </div>
   <div class="mui--text-center mui-textfield">
-    <input id="ical_link" type="text" readonly="hi" disabled></input>
+    <input id="ical_link"
+           type="text"
+           readonly="hi" placeholder="iCalendar link"
+           disabled>
+    </input>
+  </div> <br/>
+
+  <div class="mui-row">
+    <div class="mui-col-md-2 mui-dropdown">
+      <button class="mui-btn mui-btn--primary" data-mui-toggle="dropdown" disabled>
+        School
+        <span class="mui-caret"></span>
+      </button>
+      <ul class="mui-dropdown__menu"></ul>
+    </div>
+    <div class="mui-col-md-2 mui-col-md-offset-1 mui-dropdown">
+      <button class="mui-btn mui-btn--primary" data-mui-toggle="dropdown" disabled>
+        Semester
+        <span class="mui-caret"></span>
+      </button>
+      <ul class="mui-dropdown__menu"></ul>
+    </div>
+    <div class="mui-col-md-6 mui-col-md-offset-1 mui-textfield">
+      <input id="search"
+             type="text"
+             placeholder="Search for a class, like ENGL101">
+      </input>
+    </div>
   </div>
 </div>
+<div class="mui-divider"></div>
+<br/>
 
-<ul id="sections-selected"></ul>
 <div id="results">
-  <div class="loader fade">
+  <div class="loader">
     <div class="loading">
       <div class="spinner">
         <div class="mask">
