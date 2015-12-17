@@ -87,11 +87,13 @@ ul#sections {
   outline: 0;
   overflow: hidden;
 
+
   border: none;
   touch-action: manipulation;
   background-image: none;
 
-  transition: all 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out,
+              padding 0.4s ease-in-out;
 }
 
 .section:hover,.section:active {
@@ -110,6 +112,22 @@ ul#sections {
 
 .section-selected,.section-selected:hover {
   background-color: #ccf;
+  padding: 0px 15px;
+}
+
+.section-info {
+  height: auto;
+  overflow: hidden;
+  max-height: 500px;
+
+  transition: opacity 0.4s ease-in-out,
+              max-height 0.4s ease-in-out;
+}
+.section-selected > .section-info {
+  max-height: 0;
+  opacity: 0;
+
+  transition: all 0.4s ease;
 }
 
 .section::-moz-focus-inner {
@@ -129,6 +147,7 @@ ul#sections {
   font-size: larger;
   margin-right: 15px;
 }
+
 .section-kind {
   font-size: large;
   margin-right: 5px;
