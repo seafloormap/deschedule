@@ -58,6 +58,18 @@ footer {
 }
 
 /**
+ * Control Box
+ */
+#control-box {
+  width: 100%;
+}
+
+#ical_link {
+  width: 100%;
+  font-family: monospace;
+}
+
+/**
  * Section styling
  */
 ul#sections {

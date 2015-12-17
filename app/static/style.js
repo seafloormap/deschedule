@@ -30,7 +30,3 @@ function style_section(section) {
            '</div>' +
          '</div>';
 }
-
-function any_sections_selected() {
-  return ($('.section-selected').length > 0);
-}

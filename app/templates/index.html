@@ -10,22 +10,27 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-  console.log('Loading class sections...');
-  api_classes('umbc', 'SPRING2016', function(resp) {
-    var items = [];
-    $.each(resp['data'], function(key, val) {
-      items.push('<li>' + style_section(val) + '</li>');
-    });
-
-    $('#sections').html(items.join(""));
+  fill_all_sections('umbc', 'spring2016', function(resp) {
     $('.section').click(function(event) {
       $(this).toggleClass('section-selected');
     });
     $('.section').click(function() {
-      if(any_sections_selected()) {
-        $('#to_ical').removeAttr('disabled');
+      section_ids = []
+      $('.section-selected').each(function(index, section) {
+        section_ids.push($(this).attr('data-classcode') + '.' + $(this).attr('data-number'));
+      });
+
+      to_ical = $('#to_ical');
+      ical_link = $('#ical_link');
+      if(section_ids.length > 0) {
+        to_ical.removeAttr('disabled');
+        ical_link.removeAttr('disabled');
+        ical_link.attr('value', window.location.href +
+            construct_schedule_url('umbc', 'spring2016', section_ids));
       } else {
-        $('#to_ical').attr('disabled', 'disabled');
+        to_ical.attr('disabled', 'disabled');
+        ical_link.attr('disabled', 'disabled');
+        ical_link.attr('value', '');
       }
     });
   });
@@ -38,16 +43,13 @@ $(document).ready(function() {
       section_ids.push($(this).attr('data-classcode') + '.' + $(this).attr('data-number'));
     });
 
-    params = {
-      'semester': 'SPRING2016',
-      'sections': section_ids.join(',')
-    };
+    location.href = construct_schedule_url('umbc', 'spring2016', section_ids);
+  });
+});
 
-    param_arr = []
-    for(key in params) {
-      param_arr.push(key + '=' + params[key]);
-    }
-    location.href = 'schedule/?' + param_arr.join('&');
+$(document).ready(function() {
+  $('#ical_link').focus(function() {
+    $(this).select();
   });
 });
 </script>
@@ -68,8 +70,13 @@ $(document).ready(function() {
   the resulting URL into your calendar app.
 </div>
 
-<div class="mui--text-center">
-  <button id="to_ical" class="mui-btn mui-btn--raised" disabled>Make iCalendar</button>
+<div id="control-box">
+  <div class="mui--text-center">
+    <button id="to_ical" class="mui-btn mui-btn--raised" disabled>Make iCalendar</button>
+  </div>
+  <div class="mui--text-center mui-textfield">
+    <input id="ical_link" type="text" readonly="hi" disabled></input>
+  </div>
 </div>
 
 <ul id="sections"></ul>
