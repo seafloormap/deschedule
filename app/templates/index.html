@@ -5,9 +5,71 @@
 <title>Deschedule</title>
 {% endblock %}
 
+{% block content %}
+{{ super() }}
+<div id="title" class="center-align">
+  <h2>Deschedule</h2>
+  <h4>Simplify your Academic Calendar</h4>
+</div>
+
+<p class="flow-text">
+  Deschedule is a free web service that collects lists of University class
+  schedules, and generates event calendars that can be imported into any other
+  calendar application. To use it, you don't need to make an account or log in.
+  Enter your school, the classes (and section numbers) that you are in, and import
+  the resulting URL into your calendar app.
+</p>
+
+<ul id="sections-selected"></ul>
+
+<div id="control-box">
+  <div class=>
+    <input id="ical_link"
+           type="text"
+           readonly="readonly" placeholder="iCalendar link"
+           disabled>
+    </input>
+  </div> <br/>
+
+  <form class="row">
+    <div class="input-field col s2">
+      <select disabled>
+        <option value="UMBC" selected>UMBC</option>
+      </select>
+    </div>
+    <div class="input-field col s2 offset-s1">
+      <select disabled>
+        <option value="SPRING2016" selected>SPRING2016</option>
+      </select>
+    </div>
+    <div class="input-field col s6 offset-s1">
+      <input id="search" type="text" placeholder="ENGL101">
+      <label for="search">Search</label>
+    </div>
+  </form>
+</div>
+
+<div id="results">
+  <div class="center">
+    <div class="preloader-wrapper active">
+      <div class="spinner-layer spinner-blue-only">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ul id="sections"></ul>
+</div>
+{% endblock %}
+
 {% block scripts %}
 {{ super() }}
-
 <script type="text/javascript">
 $(document).ready(function() {
   $('ul.schools li a').click(function() {
@@ -58,77 +120,7 @@ $(document).ready(function() {
     $(this).select();
   });
 });
+
 </script>
 {% endblock %}
 
-{% block content %}
-{{ super() }}
-<div id="title" class="mui--text-center">
-  <div class="mui--text-display3">Deschedule</div>
-  <div class="mui--text-display1">Simplify your Academic Calendar</div>
-</div>
-
-<div id="description">
-  Deschedule is a free web service that collects lists of University class
-  schedules, and generates event calendars that can be imported into any other
-  calendar application. To use it, you don't need to make an account or log in.
-  Enter your school, the classes (and section numbers) that you are in, and import
-  the resulting URL into your calendar app.
-</div>
-
-<ul id="sections-selected"></ul>
-
-<div id="control-box">
-  <div class="mui--text-center mui-textfield">
-    <input id="ical_link"
-           type="text"
-           readonly="readonly" placeholder="iCalendar link"
-           disabled>
-    </input>
-  </div> <br/>
-
-  <form class="mui-row">
-    <div class="mui-col-md-2 mui-dropdown">
-      <button class="mui-btn mui-btn--primary" data-mui-toggle="dropdown" disabled>
-        School
-        <span class="mui-caret"></span>
-      </button>
-      <ul class="mui-dropdown__menu"></ul>
-    </div>
-    <div class="mui-col-md-2 mui-col-md-offset-1 mui-dropdown">
-      <button class="mui-btn mui-btn--primary" data-mui-toggle="dropdown" disabled>
-        Semester
-        <span class="mui-caret"></span>
-      </button>
-      <ul class="mui-dropdown__menu"></ul>
-    </div>
-    <div class="mui-col-md-5 mui-col-md-offset-1 mui-textfield">
-      <input id="search"
-             type="text"
-             placeholder="Search for a class, like ENGL101">
-      </input>
-    </div>
-    <div class="mui-col-md-1">
-      <button id="submit_search" class="mui-btn" type="submit">
-        Search
-      </button>
-    </div>
-  </form>
-</div>
-<div class="mui-divider"></div>
-<br/>
-
-<div id="results">
-  <div class="loader">
-    <div class="loading">
-      <div class="spinner">
-        <div class="mask">
-          <div class="loading-circle"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <ul id="sections"></ul>
-</div>
-
-{% endblock %}

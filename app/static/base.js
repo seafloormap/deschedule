@@ -16,14 +16,14 @@ function fill_all_semesters(school, callback) {
 var sections = [];
 function fill_all_sections(school, semester, callback) {
   console.log('Loading class sections...');
-  $('#results .loader').removeClass('finished');
+  $('#results .preloader-wrapper').addClass('active');
   api_classes(school, semester, function(resp) {
     sections = [];
     $.each(resp['data'], function(key, val) {
       sections.push('<li>' + style_section(val) + '</li>');
     });
 
-    $('#results .loader').addClass('finished');
+    $('#results .preloader-wrapper').removeClass('active');
     $('#sections').html(sections.join(""));
     console.log('Loaded class sections.');
 
