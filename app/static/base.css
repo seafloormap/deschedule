@@ -137,6 +137,7 @@ ul#sections li {
   border: 0;
 }
 
-.section .mui-panel {
-  background-color: inherit;
+.section-number {
+  margin-left: 10px;
+  font-size: small;
 }
