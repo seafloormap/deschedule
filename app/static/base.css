@@ -113,11 +113,16 @@ ul#sections li {
   text-decoration: none;
 }
 
+.section.card {
+  padding: 0px;
+}
+
 .section.active,.section.active:hover {
   background-color: #ccf;
 }
-.section.active .row {
+.section.active .row,.section.active .col {
   margin: 0px;
+  padding: 0px;
 }
 
 .section .card-content {
