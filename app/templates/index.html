@@ -88,7 +88,7 @@ $(document).ready(function() {
     </input>
   </div> <br/>
 
-  <div class="mui-row">
+  <form class="mui-row">
     <div class="mui-col-md-2 mui-dropdown">
       <button class="mui-btn mui-btn--primary" data-mui-toggle="dropdown" disabled>
         School
@@ -103,13 +103,18 @@ $(document).ready(function() {
       </button>
       <ul class="mui-dropdown__menu"></ul>
     </div>
-    <div class="mui-col-md-6 mui-col-md-offset-1 mui-textfield">
+    <div class="mui-col-md-5 mui-col-md-offset-1 mui-textfield">
       <input id="search"
              type="text"
              placeholder="Search for a class, like ENGL101">
       </input>
     </div>
-  </div>
+    <div class="mui-col-md-1">
+      <button id="submit_search" class="mui-btn" type="submit">
+        Search
+      </button>
+    </div>
+  </form>
 </div>
 <div class="mui-divider"></div>
 <br/>
