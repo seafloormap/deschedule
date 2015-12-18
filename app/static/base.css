@@ -115,7 +115,18 @@ ul#sections li {
 
 .section.active,.section.active:hover {
   background-color: #ccf;
-  padding: 0px inherit;
+}
+.section.active .row {
+  margin: 0px;
+}
+
+.section .card-content {
+  transition: padding 0.4s ease;
+}
+.section.active .card-content {
+  margin: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 
 .section-info {
