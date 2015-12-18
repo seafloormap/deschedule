@@ -80,11 +80,11 @@ $(document).ready(function() {
 $(document).ready(function() {
   fill_all_sections('umbc', 'spring2016', function(resp) {
     $('.section').click(function(event) {
-      $(this).toggleClass('section-selected');
+      $(this).toggleClass('active');
     });
     $('.section').click(function() {
       section_ids = []
-      $('.section-selected').each(function(index, section) {
+      $('.section.active').each(function(index, section) {
         section_ids.push($(this).attr('data-classcode') + '.' + $(this).attr('data-number'));
       });
 
@@ -107,7 +107,7 @@ $(document).ready(function() {
 $(document).ready(function() {
   $('#to_ical').click(function(event) {
     section_ids = []
-    $('.section-selected').each(function(index, section) {
+    $('.active').each(function(index, section) {
       section_ids.push($(this).attr('data-classcode') + '.' + $(this).attr('data-number'));
     });
 

@@ -3,7 +3,7 @@ function style_semester_li(semester) {
 }
 
 function style_section(section) {
-  return '<div class="card" data-classcode="' +
+  return '<div class="section card waves-effect waves-block waves-light" data-classcode="' +
              section.class_code + '" data-number="' + section.number + '">' +
            '<div class="card-content">' +
              '<div class="section-header card-title">' +

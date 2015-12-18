@@ -44,7 +44,7 @@ function fill_some_sections(school, semester, sections) {
 }
 
 function any_sections_selected() {
-  return ($('.section-selected').length > 0);
+  return ($('.section.active').length > 0);
 }
 
 function construct_schedule_url(school, semester, sections) {

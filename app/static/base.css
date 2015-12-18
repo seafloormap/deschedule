@@ -110,9 +110,9 @@ ul#sections {
   text-decoration: none;
 }
 
-.section-selected,.section-selected:hover {
+.section.active,.section.active:hover {
   background-color: #ccf;
-  padding: 0px 15px;
+  padding: 0px inherit;
 }
 
 .section-info {
@@ -123,7 +123,7 @@ ul#sections {
   transition: opacity 0.4s ease-in-out,
               max-height 0.4s ease-in-out;
 }
-.section-selected > .section-info {
+.section.active .section-info {
   max-height: 0;
   opacity: 0;
 
@@ -136,66 +136,4 @@ ul#sections {
 
 .section .mui-panel {
   background-color: inherit;
-}
-
-.section-header {
-  padding-top: 2px;
-  padding-bottom: 2px;
-}
-
-.section-class-code {
-  font-size: larger;
-  margin-right: 15px;
-}
-
-.section-kind {
-  font-size: large;
-  margin-right: 5px;
-}
-.section-number {
-  font-size: large;
-}
-
-/**
- * Animations
- */
-.loading .loading-circle {
-  width: 20px;
-  height: 20px;
-  border-radius: 12px;
-  border: 2px solid black;
-}
-.loading .mask {
-  width: 12px;
-  height: 12px;
-  overflow: hidden;
-}
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-.loading .spinner {
-  left: 1px;
-  top: 1px;
-  width: 26px;
-  height: 26px;
-  animation: spin 1s infinite ease;
-}
-.loading {
-  top: 50%;
-  left: 50px;
-  width: 28px;
-  height: 28px;
-  margin: -14px 0 0 -14px;
-}
-
-.loader {
-  margin: auto;
-  opacity: 1;
-  width: 14px;
-  transition: opacity 2s ease;
-}
-
-.loader.finished {
-  opacity: 0;
 }
