@@ -78,6 +78,9 @@ ul#sections {
   padding: 0px;
   margin: 15px;
 }
+ul#sections li {
+  opacity: 0;
+}
 
 .section {
   color: black;
