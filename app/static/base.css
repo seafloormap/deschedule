@@ -168,3 +168,7 @@ footer {
   left: 50%;
   z-index: 6;
 }
+
+#addsection-card {
+  width: 100%;
+}

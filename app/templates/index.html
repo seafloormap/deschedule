@@ -68,24 +68,28 @@
 
     <ul>
       <li>
-        <div id="addsection" class="card">
-          <div class="card-content activator">
+        <div id="addsection-card"
+           href="#addsection-modal"
+           class="card modal-trigger waves-effect">
+          <div class="card-content">
             <span class="card-title">
               Missing a Section?
               <i class="material-icons right">add</i>
             </span>
             <p>Please add it.</p>
           </div>
-          <div class="card-reveal">
-            <span class="card-title">
-              Add a Section
-              <i class="material-icons right">close</i>
-            </span>
-            <p>Form</p>
-          </div>
         </div>
       </li>
     </ul>
+  </div>
+</div>
+
+<div id="addsection-modal" class="modal">
+  <div class="modal-content">
+    Content
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-action modal-close waves-effect waves-light btn-flat">Cancel</a>
   </div>
 </div>
 {% endblock %}
@@ -93,6 +97,13 @@
 {% block scripts %}
 {{ super() }}
 <script type="text/javascript">
+
+$(document).ready(function() {
+  $('#addsection-card').click(function() {
+    var target_modal = $(this).href();
+    $(target_modal).openModal();
+  });
+});
 
 $(document).ready(function() {
   $('ul.schools li a').click(function() {
