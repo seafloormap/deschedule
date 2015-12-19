@@ -72,13 +72,13 @@ footer {
 /**
  * Section styling
  */
-ul#sections {
+#sections-container ul {
   list-style-type: none;
   list-style-position: outside;
   padding: 0px;
   margin: 15px;
 }
-ul#sections li {
+#sections-container ul li {
   opacity: 0;
 }
 
@@ -113,7 +113,7 @@ ul#sections li {
   text-decoration: none;
 }
 
-.section.card {
+.section.card,#addsection.card {
   padding: 0px;
 }
 

@@ -26,7 +26,7 @@ function fill_all_sections(school, semester, callback) {
     $('#results .preloader-wrapper').removeClass('active');
     $('#sections').html(sections.join(""));
     console.log('Loaded class sections.');
-    Materialize.showStaggeredList('#sections');
+    Materialize.showStaggeredList('#sections-container');
 
     callback(resp);
   });
