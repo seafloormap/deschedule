@@ -85,12 +85,118 @@
 </div>
 
 <div id="addsection-modal" class="modal">
-  <div class="modal-content">
-    Content
-  </div>
-  <div class="modal-footer">
-    <a href="#!" class="modal-action modal-close waves-effect waves-light btn-flat">Cancel</a>
-  </div>
+  <form>
+    <div class="modal-content">
+      <div class="row">
+        <div class="input-field col s4">
+          <input id="class_code"
+                 type="text"
+                 placeholder="ENGL101"
+                 class="validate"
+                 required
+                 pattern="[A-Z]{3,4}[0-9]{3}">
+          <label for="class_code">Class Code</label>
+        </div>
+        <div class="input-field col s4">
+          <input id="number"
+                 type="number"
+                 min="0"
+                 class="validate">
+          <label for="number">Section Number</label>
+        </div>
+        <div class="input-field col s4">
+          <select>
+            <option value="Lecture" selected>Lecture</option>
+            <option value="Discussion">Discussion</option>
+            <option value="Laboratory">Laboratory</option>
+          </select>
+          <label>Section Type</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s3">
+          <input id="day_monday" class="filled-in" type="checkbox">
+          <label for="day_monday">Monday</label>
+          <br>
+          <input id="day_tuesday" class="filled-in" type="checkbox">
+          <label for="day_tuesday">Tuesday</label>
+        </div>
+        <div class="input-field col s3">
+          <input id="day_wednesday" class="filled-in" type="checkbox">
+          <label for="day_wednesday">Wednesday</label>
+          <br>
+          <input id="day_thursday" class="filled-in" type="checkbox">
+          <label for="day_thursday">Thursday</label>
+        </div>
+        <div class="input-field col s3">
+          <input id="day_friday" class="filled-in" type="checkbox">
+          <label for="day_friday">Friday</label>
+        </div>
+        <div class="input-field col s3">
+          <input id="day_saturday" class="filled-in" type="checkbox">
+          <label for="day_saturday">Saturday</label>
+          <br>
+          <input id="day_sunday" class="filled-in" type="checkbox">
+          <label for="day_sunday">Sunday</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s4">
+          <input id="time"
+                 type="text"
+                 placeholder="01:00 PM"
+                 class="validate"
+                 required
+                 pattern="[012]?[0-9]:[0-9][0-9]( [aApP]\.?[mM]\.?)?">
+          <label for="time">Time</label>
+        </div>
+        <div class="input-field col s4">
+          <input id="length"
+                 type="number"
+                 min="0"
+                 value="75"
+                 class="validate"
+                 required>
+          <label for="length">Minutes</label>
+        </div>
+        <div class="input-field col s4">
+          <input id="room"
+                 type="text"
+                 class="validate"
+                 pattern="[A-Z]+[0-9]+">
+          <label for="room">Room</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s6">
+          <input id="instructor"
+                 type="text"
+                 placeholder="Jane Doe"
+                 class="validate">
+          <label for="instructor">Instructor</label>
+        </div>
+        <div class="input-field col s6">
+          <input id="email"
+                 type="email"
+                 class="validate">
+          <label for="email">Instructor Email</label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="input-field left">
+        <a href="#!"
+           class="modal-action modal-close waves-effect red lighten-2 btn-flat">Cancel</a>
+      </div>
+
+      <div class="input-field right">
+        <input id="submit"
+               type="submit"
+               class="modal-action waves-effect teal lighten-3 btn-flat">
+        <label for="submit">Add Section</label>
+      </div>
+    </div>
+  </form>
 </div>
 {% endblock %}
 
@@ -118,9 +224,9 @@ $(document).ready(function() {
     });
     $('.section').click(function() {
       section_ids = []
-      $('.section.active').each(function(index, section) {
-        section_ids.push($(this).attr('data-classcode') + '.' + $(this).attr('data-number'));
-      });
+        $('.section.active').each(function(index, section) {
+          section_ids.push($(this).attr('data-classcode') + '.' + $(this).attr('data-number'));
+        });
 
       to_ical = $('#to_ical');
       ical_link = $('#ical_link');
@@ -141,9 +247,9 @@ $(document).ready(function() {
 $(document).ready(function() {
   $('#to_ical').click(function(event) {
     section_ids = []
-    $('.active').each(function(index, section) {
-      section_ids.push($(this).attr('data-classcode') + '.' + $(this).attr('data-number'));
-    });
+      $('.active').each(function(index, section) {
+        section_ids.push($(this).attr('data-classcode') + '.' + $(this).attr('data-number'));
+      });
 
     location.href = construct_schedule_url('umbc', 'spring2016', section_ids);
   });
