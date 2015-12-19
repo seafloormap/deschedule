@@ -157,3 +157,14 @@ ul#sections li {
   margin-left: 10px;
   font-size: small;
 }
+
+#results {
+  position: relative;
+  min-height: 40px;
+}
+#results .preloader-wrapper {
+  position: absolute;
+  top: 0px;
+  left: 50%;
+  z-index: 6;
+}
