@@ -185,7 +185,7 @@ def api_new_section(semester, class_code, section_number):
     db.session.add(section)
     db.session.commit()
     app.logger.info('Created section "{}"'.format(section))
-    return None
+    return section
 
 @app.route('/api/umbc/semester/<semester>/class/<class_code>/<int:section_number>/')
 @api_response

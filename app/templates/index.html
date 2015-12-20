@@ -243,6 +243,7 @@ $(document).ready(function() {
     $.post(url, data, function(resp) {
       console.log('Section added successfully.');
       $('#addsection').removeClass('submitting');
+      $('ul#sections').append(style_section(data));
     });
   });
 
