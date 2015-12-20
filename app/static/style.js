@@ -19,11 +19,11 @@ function style_section(section, classes) {
                    section.instructor +
                  '</div>' +
                '</div>' +
-               '<ul class="section-info">' +
-                 '<li>' + section.time + '</li>' +
-                 '<li>' + (section.days.join('/')) + '</li>' +
-                 '<li>' + ((section.room != null) ? section.room : '') + '</li>' +
-               '</ul>' +
+               '<div class="section-info row">' +
+                 '<div class="col s4">' + section.days.join('/') + '</div>' +
+                 '<div class="col s4">' + section.time + '</div>' +
+                 '<div class="col s4 right-align">' + (section.room ? section.room : '') + '</div>' +
+               '</div>' +
              '</div>' +
            '</div>' +
          '</li>';
