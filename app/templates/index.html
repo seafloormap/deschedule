@@ -244,7 +244,19 @@ $(document).ready(function() {
     $.post(url, data, function(resp) {
       console.log('Section added successfully.');
       $('#addsection').removeClass('submitting');
-      $('ul#sections').append(style_section(data));
+      $('ul#sections').append(style_section(resp['data'], ['new']));
+
+      // Transition the new section in. Copied right from
+      // Materialize/js/transitions.js.
+      var new_section = $('ul#sections li .section.new');
+      var new_section_item = new_section.parent();
+      new_section_item.velocity(
+          { translateX: "-100px" },
+          { duration: 0 });
+      new_section_item.velocity(
+          { opacity: "1", translateX: "0" },
+          { duration: 800, easing: [60, 10] });
+      new_section.removeClass('new');
     });
   });
 

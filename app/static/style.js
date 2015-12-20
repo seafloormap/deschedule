@@ -2,10 +2,13 @@ function style_semester_li(semester) {
   return '<a class="semester">' + semester.name + '</a>';
 }
 
-function style_section(section) {
+function style_section(section, classes) {
+  if(!classes) { classes = []; }
   return '<li>' +
-           '<div class="section card waves-effect waves-block waves-light" data-classcode="' +
-              section.class_code + '" data-number="' + section.number + '">' +
+           '<div class="section card waves-effect waves-block waves-light ' +
+                classes.join(' ') +
+              '" data-classcode="' + section.class_code +
+              '" data-number="' + section.number + '">' +
              '<div class="card-content">' +
                '<div class="section-header card-title row">' +
                  '<div class="col s6 left-align">' +
