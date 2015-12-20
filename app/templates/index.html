@@ -106,11 +106,11 @@
                  class="validate">
           <label for="number">Section Number</label>
         </div>
-        <div class="input-field col s4">
+        <div name="kind" class="input-field col s4">
           <select>
-            <option value="Lecture" selected>Lecture</option>
-            <option value="Discussion">Discussion</option>
-            <option value="Laboratory">Laboratory</option>
+            {%- for kind in section_kinds %}
+            <option value="{{kind}}" selected>{{kind}}</option>
+            {%- endfor %}
           </select>
           <label>Section Type</label>
         </div>
@@ -224,6 +224,7 @@ $(document).ready(function() {
         values[this.name] = $(this).val();
       }
     });
+    values['kind'] = $('div[name="kind"] input').val();
 
     var url = '/api/' + get_school() + '/semester/' + get_semester() +
       '/class/' + values['class_code'] + '/' + values['number'];

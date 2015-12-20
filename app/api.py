@@ -169,6 +169,9 @@ def api_new_section(semester, class_code, section_number):
     """Create a new section attached to the Semester. Days are given as
     'mon/tue/wed/thu/fri/sat/sun' or any combination thereof."""
     s = Semester.query.filter(Semester.name == semester.upper()).one()
+    if request.data.get('kind') not in Section.kinds:
+        flask.abort(400)
+
     section = Section(
         class_code = class_code,
         number = section_number,

@@ -11,7 +11,9 @@ from app.renderers import ICalendarRenderer
 @app.route('/index')
 @set_renderers(HTMLRenderer)
 def index():
-    return render_template('index.html')
+    return render_template('index.html',
+            section_kinds = models.Section.kinds
+    )
 
 @app.route('/schedule/')
 @set_renderers(HTMLRenderer, ICalendarRenderer)

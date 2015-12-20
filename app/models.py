@@ -96,6 +96,7 @@ class Section(db.Model):
             db.UniqueConstraint('class_code', 'number', 'semester_id',
                 name='_class_section_num_uc'),
         )
+    kinds = ("Lecture", "Laboratory", "Discussion")
     id = db.Column(db.Integer, primary_key=True)
 
     semester_id = db.Column(db.Integer, db.ForeignKey('semester.id'))
@@ -103,7 +104,7 @@ class Section(db.Model):
 
     class_code = db.Column(db.String(16))
     number     = db.Column(db.Integer)
-    kind       = db.Column(db.Enum("Lecture", "Laboratory", "Discussion"))
+    kind       = db.Column(db.Enum(*kinds))
     
     time   = db.Column(db.Time)
     length = db.Column(db.Interval, default = datetime.timedelta(minutes = 75))
