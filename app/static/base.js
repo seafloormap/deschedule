@@ -52,3 +52,24 @@ function construct_schedule_url(school, semester, sections) {
     if(typeof(sections) != 'string') { sections = sections.join(','); }
     return 'schedule/?semester=' + semester + '&sections=' + sections;
 }
+
+function get_school() {
+  /* TODO: remove toLowerCase once API supports it */
+  return $('div[name="school"] input').val().toLowerCase();
+}
+
+function get_semester() {
+  return $('div[name="semester"] input').val();
+}
+
+function format_days(monday, tuesday, wednesday, thursday, friday, saturday, sunday) {
+  var day_bools = [monday, tuesday, wednesday, thursday, friday, saturday, sunday];
+  var day_names = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+  var days = [];
+  for (var i = 0; i < 7; i++) {
+    if(day_bools[i]) {
+      days.push(day_names[i]);
+    }
+  }
+  return days.join('/');
+}

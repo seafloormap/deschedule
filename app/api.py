@@ -172,19 +172,14 @@ def api_new_section(semester, class_code, section_number):
     section = Section(
         class_code = class_code,
         number = section_number,
-        kind = request.form['kind'],
-        days = request.form['days'].split('/'),
-        time = request.form['time'],
-        length = int(request.form['length']) \
-                if 'length' in request.form else None,
-        instructor = request.form['instructor'] \
-                if 'instructor' in request.form else None,
-        email = request.form['email'] \
-                if 'email' in request.form else None,
-        room = request.form['room'] \
-                if 'room' in request.form else None
+        kind = request.data.get('kind'),
+        days = request.data.get('days').split('/'),
+        time = request.data.get('time'),
+        length = int(request.data.get('length', 75)),
+        instructor = request.data.get('instructor', None),
+        email = request.data.get('email', None),
+        room = request.data.get('room', None)
     )
-    print(section)
     s.sections.append(section)
     db.session.add(s)
     db.session.add(section)

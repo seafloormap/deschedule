@@ -30,13 +30,13 @@
     </input>
   </div> <br/>
 
-  <form class="row">
-    <div class="input-field col s2">
+  <form id="context" class="row">
+    <div name="school" class="input-field col s2">
       <select disabled>
         <option value="UMBC" selected>UMBC</option>
       </select>
     </div>
-    <div class="input-field col s2 offset-s1">
+    <div name="semester" class="input-field col s2 offset-s1">
       <select disabled>
         <option value="SPRING2016" selected>SPRING2016</option>
       </select>
@@ -85,11 +85,12 @@
 </div>
 
 <div id="addsection-modal" class="modal">
-  <form>
+  <form id="addsection">
     <div class="modal-content">
       <div class="row">
         <div class="input-field col s4">
-          <input id="class_code"
+          <input id="addsection-class_code"
+                 name="class_code"
                  type="text"
                  placeholder="ENGL101"
                  class="validate"
@@ -98,7 +99,8 @@
           <label for="class_code">Class Code</label>
         </div>
         <div class="input-field col s4">
-          <input id="number"
+          <input id="addsection-number"
+                 name="number"
                  type="number"
                  min="0"
                  class="validate">
@@ -115,34 +117,35 @@
       </div>
       <div class="row">
         <div class="input-field col s3">
-          <input id="day_monday" class="filled-in" type="checkbox">
-          <label for="day_monday">Monday</label>
+          <input id="addsection-monday" name="monday" class="filled-in" type="checkbox">
+          <label for="addsection-monday">Monday</label>
           <br>
-          <input id="day_tuesday" class="filled-in" type="checkbox">
-          <label for="day_tuesday">Tuesday</label>
+          <input id="addsection-tuesday" name="tuesday" class="filled-in" type="checkbox">
+          <label for="addsection-tuesday">Tuesday</label>
         </div>
         <div class="input-field col s3">
-          <input id="day_wednesday" class="filled-in" type="checkbox">
-          <label for="day_wednesday">Wednesday</label>
+          <input id="addsection-wednesday" name="wednesday" class="filled-in" type="checkbox">
+          <label for="addsection-wednesday">Wednesday</label>
           <br>
-          <input id="day_thursday" class="filled-in" type="checkbox">
-          <label for="day_thursday">Thursday</label>
+          <input id="addsection-thursday" name="thursday" class="filled-in" type="checkbox">
+          <label for="addsection-thursday">Thursday</label>
         </div>
         <div class="input-field col s3">
-          <input id="day_friday" class="filled-in" type="checkbox">
-          <label for="day_friday">Friday</label>
+          <input id="addsection-friday" name="friday" class="filled-in" type="checkbox">
+          <label for="addsection-friday">Friday</label>
         </div>
         <div class="input-field col s3">
-          <input id="day_saturday" class="filled-in" type="checkbox">
-          <label for="day_saturday">Saturday</label>
+          <input id="addsection-saturday" name="saturday" class="filled-in" type="checkbox">
+          <label for="addsection-saturday">Saturday</label>
           <br>
-          <input id="day_sunday" class="filled-in" type="checkbox">
-          <label for="day_sunday">Sunday</label>
+          <input id="addsection-sunday" name="sunday" class="filled-in" type="checkbox">
+          <label for="addsection-sunday">Sunday</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s4">
-          <input id="time"
+          <input id="addsection-time"
+                 name="time"
                  type="text"
                  placeholder="01:00 PM"
                  class="validate"
@@ -151,7 +154,8 @@
           <label for="time">Time</label>
         </div>
         <div class="input-field col s4">
-          <input id="length"
+          <input id="addsection-length"
+                 name="length"
                  type="number"
                  min="0"
                  value="75"
@@ -160,7 +164,8 @@
           <label for="length">Minutes</label>
         </div>
         <div class="input-field col s4">
-          <input id="room"
+          <input id="addsection-room"
+                 name="room"
                  type="text"
                  class="validate"
                  pattern="[A-Z]+[0-9]+">
@@ -169,14 +174,16 @@
       </div>
       <div class="row">
         <div class="input-field col s6">
-          <input id="instructor"
+          <input id="addsection-instructor"
+                 name="instructor"
                  type="text"
                  placeholder="Jane Doe"
                  class="validate">
           <label for="instructor">Instructor</label>
         </div>
         <div class="input-field col s6">
-          <input id="email"
+          <input id="addsection-email"
+                 name="email"
                  type="email"
                  class="validate">
           <label for="email">Instructor Email</label>
@@ -205,11 +212,42 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
-  $('#addsection-card').click(function() {
-    var target_modal = $(this).href();
-    $(target_modal).openModal();
+  $('#addsection').submit(function(event) {
+    $('#addsection').addClass('submitting');
+    event.preventDefault();
+    var $inputs = $('#addsection :input');
+    var values = {}
+    $inputs.each(function() {
+      if($(this).attr('type') == 'checkbox') {
+        values[this.name] = $(this).is(':checked');
+      } else {
+        values[this.name] = $(this).val();
+      }
+    });
+
+    var url = '/api/' + get_school() + '/semester/' + get_semester() +
+      '/class/' + values['class_code'] + '/' + values['number'];
+    var data = {
+      kind: values['kind'],
+      time: values['time'],
+      length: values['length'],
+      instructor: values['instructor'],
+      email: values['email'],
+      room: values['room'],
+      days: format_days(values['monday'], values['tuesday'], values['wednesday'],
+                        values['thursday'], values['friday'],
+                        values['saturday'], values['sunday'])
+    }
+    console.log('Submitting section: ', url, data);
+
+    $.post(url, data, function(resp) {
+      console.log('Section added successfully.');
+      $('#addsection').removeClass('submitting');
+    });
   });
+
 });
+
 
 $(document).ready(function() {
   $('ul.schools li a').click(function() {
