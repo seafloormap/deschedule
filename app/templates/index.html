@@ -31,17 +31,19 @@
   </div> <br/>
 
   <form id="context" class="row">
-    <div name="school" class="input-field col s2">
+    <div name="school" class="input-field col s3">
       <select disabled>
         <option value="UMBC" selected>UMBC</option>
       </select>
     </div>
-    <div name="semester" class="input-field col s2 offset-s1">
-      <select disabled>
-        <option value="SPRING2016" selected>SPRING2016</option>
+    <div name="semester" class="input-field col s3">
+      <select>
+        {%- for semester in semesters %}
+        <option value="{{semester.name}}" selected>{{semester.name}}</option>
+        {%- endfor %}
       </select>
     </div>
-    <div class="input-field col s6 offset-s1">
+    <div class="input-field col s6">
       <i class="material-icons prefix">search</i>
       <input id="search" type="text" placeholder="ENGL101" disabled>
       <label for="search">Search</label>
@@ -270,7 +272,7 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
-  fill_all_sections('umbc', 'spring2016', function(resp) {
+  fill_all_sections(get_school(), get_semester(), function(resp) {
     $('.section').click(function(event) {
       $(this).toggleClass('active');
     });
@@ -286,7 +288,7 @@ $(document).ready(function() {
         to_ical.removeAttr('disabled');
         ical_link.removeAttr('disabled');
         ical_link.attr('value', window.location.href +
-            construct_schedule_url('umbc', 'spring2016', section_ids));
+            construct_schedule_url(get_school(), get_semester(), section_ids));
       } else {
         to_ical.attr('disabled', 'disabled');
         ical_link.attr('disabled', 'disabled');
@@ -303,7 +305,7 @@ $(document).ready(function() {
         section_ids.push($(this).attr('data-classcode') + '.' + $(this).attr('data-number'));
       });
 
-    location.href = construct_schedule_url('umbc', 'spring2016', section_ids);
+    location.href = construct_schedule_url(get_school(), get_semester(), section_ids);
   });
 });
 
