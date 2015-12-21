@@ -326,12 +326,14 @@ $(document).ready(function() {
   });
 });
 
-function section_click() {
-  $(this).toggleClass('active');
-  section_ids = []
-    $('.section.active').each(function(index, section) {
-      section_ids.push($(this).attr('data-classcode') + '.' + $(this).attr('data-number'));
-    });
+function section_click(element) {
+  $(element).toggleClass('active');
+
+  section_ids = [];
+  $('.section.active').each(function(index, section) {
+    section_ids.push($(element).attr('data-classcode') +
+        '.' + $(element).attr('data-number'));
+  });
 
   to_ical = $('#to_ical');
   ical_link = $('#ical_link');
