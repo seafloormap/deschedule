@@ -305,8 +305,14 @@ var searched_classes = [];
 $(document).ready(function() {
   $('#search').submit(function(event) {
     event.preventDefault();
+    // Get the list of classes, and filter out empty strings.
     var classes = $('#search :input[name="classes"]').val();
-    searched_classes = classes.split(',');
+    searched_classes = classes.split(',').filter(function(el) { return el; });
+
+    // If there are no classes to search, abort.
+    if(searched_classes.length == 0) {
+      return false;
+    }
 
     var url = '/api/' + get_school() + '/semester/' + get_semester() +
       '/search/' + classes;
