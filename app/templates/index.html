@@ -280,10 +280,12 @@ $(document).ready(function() {
 
 });
 
+var searched_classes = [];
 $(document).ready(function() {
   $('#search').submit(function(event) {
     event.preventDefault();
     var classes = $('#search :input[name="classes"]').val();
+    searched_classes = classes.split(',');
 
     var url = '/api/' + get_school() + '/semester/' + get_semester() +
       '/search/' + classes;
@@ -291,6 +293,12 @@ $(document).ready(function() {
     $.getJSON(url, function(resp) {
       show_sections(resp['data']);
     });
+
+    // Reset the addsection form, and prefill with the first searched section, if any.
+    $('#addsection')[0].reset();
+    if(searched_classes) {
+      $('#addsection input[name="class_code"]').val(searched_classes[0]);
+    }
   });
 });
 
