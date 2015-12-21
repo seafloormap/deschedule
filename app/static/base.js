@@ -37,6 +37,8 @@ function fill_some_sections(school, semester, sections) {
 }
 
 function show_sections(sections) {
+  dismiss_sections();
+
   var styled_sections = [];
   $.each(sections, function(key, val) {
     styled_sections.push(style_section(val));
@@ -45,6 +47,17 @@ function show_sections(sections) {
   $('#sections').html(styled_sections.join(''));
   console.log('Loaded class sections.');
   Materialize.showStaggeredList('#sections-container');
+}
+
+function dismiss_sections() {
+  // Adapted from Materialize/js/transitions.js showStaggeredList
+  var time = 0;
+  $('#sections-container').find('li').each(function() {
+    $(this).velocity(
+        { opacity: "0", translateX: "200px" },
+        { duration: 800, delay: time, easing: [60, 10] });
+    time += 120;
+  });
 }
 
 function any_sections_selected() {
