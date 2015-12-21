@@ -55,11 +55,11 @@ function construct_schedule_url(school, semester, sections) {
 
 function get_school() {
   /* TODO: remove toLowerCase once API supports it */
-  return $('div[name="school"] input').val().toLowerCase();
+  return $('div[name="school"] input').val().trim().toLowerCase();
 }
 
 function get_semester() {
-  return $('div[name="semester"] input').val();
+  return $('div[name="semester"] input').val().trim();
 }
 
 function format_days(monday, tuesday, wednesday, thursday, friday, saturday, sunday) {

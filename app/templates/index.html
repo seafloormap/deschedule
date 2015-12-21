@@ -39,7 +39,10 @@
     <div name="semester" class="input-field col s3">
       <select>
         {%- for semester in semesters %}
-        <option value="{{semester.name}}" selected>{{semester.name}}</option>
+        <option value="{{semester.name}}"
+                {% if loop.first %}selected{% endif %}>
+          {{semester.name}}
+        </option>
         {%- endfor %}
       </select>
     </div>
@@ -111,7 +114,7 @@
         <div name="kind" class="input-field col s4">
           <select>
             {%- for kind in section_kinds %}
-            <option value="{{kind}}" selected>{{kind}}</option>
+            <option value="{{kind}}" {% if loop.first %}selected{% endif %}>{{kind}}</option>
             {%- endfor %}
           </select>
           <label>Section Type</label>
@@ -246,7 +249,7 @@ $(document).ready(function() {
     $.post(url, data, function(resp) {
       console.log('Section added successfully.');
       $('#addsection').removeClass('submitting');
-      $('ul#sections').append(style_section(resp['data'], ['new']));
+      $('ul#sections').append(style_section(resp['data'], ['active', 'new']));
 
       // Transition the new section in. Copied right from
       // Materialize/js/transitions.js.
