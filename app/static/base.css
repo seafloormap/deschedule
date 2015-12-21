@@ -169,6 +169,27 @@ footer {
   z-index: 6;
 }
 
+/*
+ * Messages in the Results Box
+ */
+#results #messages {
+  width: 100%;
+}
+.message {
+  width: 100%;
+}
+
+#results #message-nosearch {
+  display: none;
+}
+#results.nosearch #message-nosearch {
+  display: inline;
+  opacity: 1;
+}
+
 #addsection-card {
   width: 100%;
+}
+.nosearch #addsection-card {
+  display: none;
 }

@@ -68,8 +68,8 @@
 </div>
 
 
-<div id="results">
-  <div class="preloader-wrapper active">
+<div id="results" class="nosearch">
+  <div id="spinner" class="preloader-wrapper">
     <div class="spinner-layer spinner-blue-only">
       <div class="circle-clipper left">
         <div class="circle"></div>
@@ -82,6 +82,16 @@
   </div>
 
   <div id="sections-container">
+    <ul id="messages">
+      <li>
+        <div id="message-nosearch"
+             class="card-title grey-text lighten-1 center-align message">
+          Classes you search for will show up here.
+        </div>
+      </li>
+    </ul>
+
+
     <ul id="sections"></ul>
 
     <ul>
@@ -229,6 +239,11 @@
 {{ super() }}
 <script type="text/javascript">
 
+// Flush the pre-loaded sections, and display any messages in the results box.
+$(document).ready(function() {
+  show_sections([]);
+});
+
 $(document).ready(function() {
   $('#addsection').submit(function(event) {
     $('#addsection').addClass('submitting');
@@ -300,6 +315,11 @@ $(document).ready(function() {
       $('#addsection input[name="class_code"]').val(searched_classes[0]);
     }
   });
+
+  // Fire the event once so that any prefilled search loads.
+  if($('#search :input[name="classes"]').val()) {
+    $('#search').submit();
+  }
 });
 
 
