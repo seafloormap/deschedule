@@ -186,6 +186,13 @@ footer {
   display: inline;
   opacity: 1;
 }
+#results #message-noresults {
+  display: none;
+}
+#results.noresults #message-noresults {
+  display: inline;
+  opacity: 1;
+}
 
 #addsection-card {
   width: 100%;
