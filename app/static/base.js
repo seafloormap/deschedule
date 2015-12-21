@@ -43,7 +43,7 @@ function show_sections(sections) {
   $.each(sections, function(key, val) {
     styled_sections.push(style_section(val));
   });
-  $('#results .preloader-wrapper').removeClass('active');
+  $('#spinner').removeClass('active');
   $('#sections').html(styled_sections.join(''));
   console.log('Loaded class sections.');
   Materialize.showStaggeredList('#sections-container');

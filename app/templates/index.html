@@ -305,7 +305,18 @@ $(document).ready(function() {
     var url = '/api/' + get_school() + '/semester/' + get_semester() +
       '/search/' + classes;
     console.log('Loading sections from search: ' + classes);
+
+    // Remove the nosearch class, because we have preformed a search.
+    $('#results').removeClass('nosearch');
+    // Trigger loading indicator.
+    $('#spinner').addClass('active');
+
     $.getJSON(url, function(resp) {
+      if(resp['data'].length > 0) {
+        $('#results').removeClass('noresults');
+      } else {
+        $('#results').addClass('noresults');
+      }
       show_sections(resp['data']);
     });
 
