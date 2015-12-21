@@ -306,12 +306,13 @@ $(document).ready(function() {
       '/search/' + classes;
     console.log('Loading sections from search: ' + classes);
 
-    // Remove the nosearch class, because we have preformed a search.
-    $('#results').removeClass('nosearch');
     // Trigger loading indicator.
     $('#spinner').addClass('active');
 
     $.getJSON(url, function(resp) {
+      // Remove the nosearch class, because we have preformed a search.
+      $('#results').removeClass('nosearch');
+
       if(resp['data'].length > 0) {
         $('#results').removeClass('noresults');
       } else {
