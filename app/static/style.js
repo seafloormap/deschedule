@@ -8,7 +8,8 @@ function style_section(section, classes) {
            '<div class="section card waves-effect waves-block waves-light ' +
                 classes.join(' ') +
               '" data-classcode="' + section.class_code +
-              '" data-number="' + section.number + '">' +
+              '" data-number="' + section.number +
+              'onclick="section_click">' +
              '<div class="card-content">' +
                '<div class="section-header card-title row">' +
                  '<div class="col s6 left-align">' +

@@ -18,16 +18,8 @@ function fill_all_sections(school, semester, callback) {
   console.log('Loading class sections...');
   $('#results .preloader-wrapper').addClass('active');
   api_classes(school, semester, function(resp) {
-    sections = [];
-    $.each(resp['data'], function(key, val) {
-      sections.push('<li>' + style_section(val) + '</li>');
-    });
-
-    $('#results .preloader-wrapper').removeClass('active');
-    $('#sections').html(sections.join(""));
-    console.log('Loaded class sections.');
-    Materialize.showStaggeredList('#sections-container');
-
+    sections = resp['data'];
+    show_sections(sections);
     callback(resp);
   });
 }
@@ -42,6 +34,17 @@ function fill_some_sections(school, semester, sections) {
     $('#sections').html(items.join(""));
     console.log('Loaded class sections.');
   });
+}
+
+function show_sections(sections) {
+  var styled_sections = [];
+  $.each(sections, function(key, val) {
+    styled_sections.push(style_section(val));
+  });
+  $('#results .preloader-wrapper').removeClass('active');
+  $('#sections').html(styled_sections.join(''));
+  console.log('Loaded class sections.');
+  Materialize.showStaggeredList('#sections-container');
 }
 
 function any_sections_selected() {

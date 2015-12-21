@@ -30,28 +30,41 @@
     </input>
   </div> <br/>
 
-  <form id="context" class="row">
-    <div name="school" class="input-field col s3">
-      <select disabled>
-        <option value="UMBC" selected>UMBC</option>
-      </select>
-    </div>
-    <div name="semester" class="input-field col s3">
-      <select>
-        {%- for semester in semesters %}
-        <option value="{{semester.name}}"
-                {% if loop.first %}selected{% endif %}>
+  <div class="row">
+    <form id="context">
+      <div name="school" class="input-field col s3">
+        <select disabled>
+          <option value="UMBC" selected>UMBC</option>
+        </select>
+      </div>
+      <div name="semester" class="input-field col s3">
+        <select>
+          {%- for semester in semesters %}
+          <option value="{{semester.name}}"
+                  {% if loop.first %}selected{% endif %}>
           {{semester.name}}
-        </option>
-        {%- endfor %}
-      </select>
-    </div>
-    <div class="input-field col s6">
-      <i class="material-icons prefix">search</i>
-      <input id="search" type="text" placeholder="ENGL101" disabled>
-      <label for="search">Search</label>
-    </div>
-  </form>
+          </option>
+          {%- endfor %}
+        </select>
+      </div>
+    </form>
+    <form id="search">
+      <div class="input-field col s4">
+        <i class="material-icons prefix">search</i>
+        <input name="classes"
+               type="text"
+               validate
+               pattern="([A-Z]+[0-9]+)(,[A-Z][0-9])*"
+               placeholder="ENGL101,MATH151">
+        <label for="classes">Search Classes</label>
+      </div>
+      <div class="input field col s2">
+        <input type="submit"
+               value="Search"
+               class="modal-action waves-effect teal lighten-3 btn-flat">
+      </div>
+    </form>
+  </div>
 </div>
 
 
@@ -74,8 +87,8 @@
     <ul>
       <li>
         <div id="addsection-card"
-           href="#addsection-modal"
-           class="card modal-trigger waves-effect hoverable teal lighten-2">
+             href="#addsection-modal"
+             class="card modal-trigger waves-effect hoverable teal lighten-2">
           <div class="card-content">
             <span class="card-title">
               Missing a Section?
@@ -241,8 +254,8 @@ $(document).ready(function() {
       email: values['email'],
       room: values['room'],
       days: format_days(values['monday'], values['tuesday'], values['wednesday'],
-                        values['thursday'], values['friday'],
-                        values['saturday'], values['sunday'])
+          values['thursday'], values['friday'],
+          values['saturday'], values['sunday'])
     }
     console.log('Submitting section: ', url, data);
 
@@ -267,37 +280,24 @@ $(document).ready(function() {
 
 });
 
+$(document).ready(function() {
+  $('#search').submit(function(event) {
+    event.preventDefault();
+    var classes = $('#search :input[name="classes"]').val();
+
+    var url = '/api/' + get_school() + '/semester/' + get_semester() +
+      '/search/' + classes;
+    console.log('Loading sections from search: ' + classes);
+    $.getJSON(url, function(resp) {
+      show_sections(resp['data']);
+    });
+  });
+});
+
 
 $(document).ready(function() {
   $('ul.schools li a').click(function() {
     $('#school_dropdown_label').html($(this).html());
-  });
-});
-
-$(document).ready(function() {
-  fill_all_sections(get_school(), get_semester(), function(resp) {
-    $('.section').click(function(event) {
-      $(this).toggleClass('active');
-    });
-    $('.section').click(function() {
-      section_ids = []
-        $('.section.active').each(function(index, section) {
-          section_ids.push($(this).attr('data-classcode') + '.' + $(this).attr('data-number'));
-        });
-
-      to_ical = $('#to_ical');
-      ical_link = $('#ical_link');
-      if(section_ids.length > 0) {
-        to_ical.removeAttr('disabled');
-        ical_link.removeAttr('disabled');
-        ical_link.attr('value', window.location.href +
-            construct_schedule_url(get_school(), get_semester(), section_ids));
-      } else {
-        to_ical.attr('disabled', 'disabled');
-        ical_link.attr('disabled', 'disabled');
-        ical_link.attr('value', '');
-      }
-    });
   });
 });
 
@@ -317,6 +317,27 @@ $(document).ready(function() {
     $(this).select();
   });
 });
+
+function section_click() {
+  $(this).toggleClass('active');
+  section_ids = []
+    $('.section.active').each(function(index, section) {
+      section_ids.push($(this).attr('data-classcode') + '.' + $(this).attr('data-number'));
+    });
+
+  to_ical = $('#to_ical');
+  ical_link = $('#ical_link');
+  if(section_ids.length > 0) {
+    to_ical.removeAttr('disabled');
+    ical_link.removeAttr('disabled');
+    ical_link.attr('value', window.location.href +
+        construct_schedule_url(get_school(), get_semester(), section_ids));
+  } else {
+    to_ical.attr('disabled', 'disabled');
+    ical_link.attr('disabled', 'disabled');
+    ical_link.attr('value', '');
+  }
+}
 
 </script>
 {% endblock %}

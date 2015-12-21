@@ -145,6 +145,19 @@ def api_all_breaks(semester):
     s = Semester.query.filter(Semester.name == semester.upper()).one()
     return s.breaks
 
+@app.route('/api/umbc/semester/<semester>/search/<classes>', methods=['GET'])
+@api_response
+def api_search(semester, classes):
+    class_codes = classes.split(',')
+    print(class_codes)
+    sections = Section.query.join(Semester)\
+            .filter(Semester.name == semester.upper())\
+            .filter(Section.class_code.in_(class_codes))\
+            .order_by(Section.class_code)\
+            .order_by(Section.number)\
+            .all()
+    return sections
+
 @app.route('/api/umbc/semester/<semester>/class/')
 @api_response
 def api_all_classes(semester):
