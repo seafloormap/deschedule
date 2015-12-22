@@ -37,12 +37,30 @@ function fill_some_sections(school, semester, sections) {
 }
 
 function refresh_chips(selected_sections) {
-  console.log('refreshing chips');
   var styled_chips = [];
   $.each(selected_sections, function(index, section_id) {
     styled_chips.push(style_section_chip(section_id));
   });
   $('#section_chips').html(styled_chips.join(''));
+  $('#section_chips .chip i').click(function(event) {
+    var chip_id = $(event.target).parent().attr('data-sectionid');
+    deselect_section(chip_id);
+  });
+}
+
+var selected_sections = []
+function select_section(section_id) {
+  selected_sections.push(section_id);
+  refresh_chips(selected_sections);
+}
+
+function deselect_section(section_id) {
+  selected_sections = selected_sections.filter(function(selected_section_id) {
+    return selected_section_id != section_id;
+  });
+  refresh_chips(selected_sections);
+
+  $('.section.active[data-sectionid="' + section_id +'"]').removeClass('active');
 }
 
 function show_sections(sections) {

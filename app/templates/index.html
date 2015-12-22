@@ -371,7 +371,6 @@ $(document).ready(function() {
   });
 });
 
-var selected_sections = []
 function section_click(element) {
   $(element).toggleClass('active');
 
@@ -379,11 +378,9 @@ function section_click(element) {
 
   // If the element is now active, add a chip, and add it to the list of selected ones.
   if($(element).is('.active')) {
-    selected_sections.push(section_id);
+    select_section(section_id);
   } else {
-    selected_sections = selected_sections.filter(function(selected_section_id) {
-      return selected_section_id != section_id;
-    });
+    deselect_section(section_id);
   }
   console.log(selected_sections);
   refresh_chips(selected_sections);
