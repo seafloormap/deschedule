@@ -355,17 +355,6 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
-  $('#to_ical').click(function(event) {
-    section_ids = []
-      $('.active').each(function(index, section) {
-        section_ids.push($(this).attr('data-sectionid'));
-      });
-
-    location.href = construct_schedule_url(get_school(), get_semester(), section_ids);
-  });
-});
-
-$(document).ready(function() {
   $('#ical_link').focus(function() {
     $(this).select();
   });
@@ -382,23 +371,15 @@ function section_click(element) {
   } else {
     deselect_section(section_id);
   }
-  console.log(selected_sections);
+  console.log('Now selected: ' + selected_sections);
   refresh_chips(selected_sections);
 
-  section_ids = [];
-  $('.section.active').each(function(index, section) {
-    section_ids.push($(element).attr('data-sectionid'));
-  });
-
-  to_ical = $('#to_ical');
   ical_link = $('#ical_link');
-  if(section_ids.length > 0) {
-    to_ical.removeAttr('disabled');
+  if(selected_sections.length > 0) {
     ical_link.removeAttr('disabled');
     ical_link.attr('value', window.location.href +
-        construct_schedule_url(get_school(), get_semester(), section_ids));
+        construct_schedule_url(get_school(), get_semester(), selected_sections));
   } else {
-    to_ical.attr('disabled', 'disabled');
     ical_link.attr('disabled', 'disabled');
     ical_link.attr('value', '');
   }
