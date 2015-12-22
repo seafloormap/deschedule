@@ -358,7 +358,7 @@ $(document).ready(function() {
   $('#to_ical').click(function(event) {
     section_ids = []
       $('.active').each(function(index, section) {
-        section_ids.push($(this).attr('data-classcode') + '.' + $(this).attr('data-number'));
+        section_ids.push($(this).attr('data-sectionid'));
       });
 
     location.href = construct_schedule_url(get_school(), get_semester(), section_ids);
@@ -375,8 +375,7 @@ var selected_sections = []
 function section_click(element) {
   $(element).toggleClass('active');
 
-  var section_id = $(element).attr('data-classcode') +
-    '.' + $(element).attr('data-number');
+  var section_id = $(element).attr('data-sectionid');
 
   // If the element is now active, add a chip, and add it to the list of selected ones.
   if($(element).is('.active')) {
@@ -391,8 +390,7 @@ function section_click(element) {
 
   section_ids = [];
   $('.section.active').each(function(index, section) {
-    section_ids.push($(element).attr('data-classcode') +
-        '.' + $(element).attr('data-number'));
+    section_ids.push($(element).attr('data-sectionid'));
   });
 
   to_ical = $('#to_ical');

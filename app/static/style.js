@@ -7,8 +7,7 @@ function style_section(section, classes) {
   return '<li>' +
            '<div class="section card waves-effect waves-block waves-light ' +
                 classes.join(' ') +
-              '" data-classcode="' + section.class_code +
-              '" data-number="' + section.number + '" ' +
+              '" data-sectionid="' + section.class_code+'.'+section.number +'" ' +
               'onclick="section_click(this);">' +
              '<div class="card-content">' +
                '<div class="section-header card-title row">' +
@@ -31,7 +30,7 @@ function style_section(section, classes) {
 }
 
 function style_section_chip(code_id) {
-  return '<div class="section chip">' + code_id +
+  return '<div class="section chip" data-sectionid="' + code_id + '">' + code_id +
       '<i class="material-icons">close</i>' +
     '</div>'
 }
