@@ -23,7 +23,8 @@
 <ul id="sections-selected"></ul>
 
 <div id="control-box">
-  <div class=>
+  <div>
+    <div id="section_chips"></div>
     <input id="ical_link"
            type="text"
            readonly="readonly" placeholder="iCalendar link">
@@ -370,8 +371,23 @@ $(document).ready(function() {
   });
 });
 
+var selected_sections = []
 function section_click(element) {
   $(element).toggleClass('active');
+
+  var section_id = $(element).attr('data-classcode') +
+    '.' + $(element).attr('data-number');
+
+  // If the element is now active, add a chip, and add it to the list of selected ones.
+  if($(element).is('.active')) {
+    selected_sections.push(section_id);
+  } else {
+    selected_sections = selected_sections.filter(function(selected_section_id) {
+      return selected_section_id != section_id;
+    });
+  }
+  console.log(selected_sections);
+  refresh_chips(selected_sections);
 
   section_ids = [];
   $('.section.active').each(function(index, section) {

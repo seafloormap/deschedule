@@ -36,6 +36,15 @@ function fill_some_sections(school, semester, sections) {
   });
 }
 
+function refresh_chips(selected_sections) {
+  console.log('refreshing chips');
+  var styled_chips = [];
+  $.each(selected_sections, function(index, section_id) {
+    styled_chips.push(style_section_chip(section_id));
+  });
+  $('#section_chips').html(styled_chips.join(''));
+}
+
 function show_sections(sections) {
   dismiss_sections();
 

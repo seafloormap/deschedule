@@ -29,3 +29,9 @@ function style_section(section, classes) {
            '</div>' +
          '</li>';
 }
+
+function style_section_chip(code_id) {
+  return '<div class="section chip">' + code_id +
+      '<i class="material-icons">close</i>' +
+    '</div>'
+}

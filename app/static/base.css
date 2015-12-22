@@ -64,6 +64,10 @@ footer {
   width: 100%;
 }
 
+#section_chips .chip {
+  width: auto;
+}
+
 #ical_link {
   width: 100%;
   font-family: monospace;
