@@ -27,3 +27,12 @@ function url_api_schedule_events(school, semester, section_ids) {
   return '/api/' + school + '/semester/' + semester + '/schedule/events/' +
     '?sections=' + section_ids.join(',');
 }
+
+function api_random_sections(school, semester, number, callback) {
+    var args = "";
+    if(number) {
+        args = '?number=' + number;
+    }
+    return api_get('/api/' + school + '/semester/' + semester + '/random/' + args,
+            callback);
+}

@@ -7,6 +7,7 @@ from flask import request
 from flask.ext.api.decorators import set_renderers
 
 from sqlalchemy.exc import DBAPIError
+import sqlalchemy.sql.expression
 
 import functools, itertools
 
@@ -41,8 +42,8 @@ def api_all_semesters():
 def api_new_semester(semester):
     s = Semester(
             name  = semester,
-            start = request.form['start'],
-            end   = request.form['end']
+            start = request.data.get('start'),
+            end   = request.data.get('end')
     )
     db.session.add(s)
     db.session.commit()
@@ -223,3 +224,14 @@ def api_section_events(semester, class_code, section_number):
             .filter(db.and_(Section.class_code == class_code,
                             Section.number == section_number)).one()
     return section.events()
+
+@app.route('/api/umbc/semester/<semester>/random/')
+@api_response
+def api_random_section(semester):
+    """Return a number of random sections from the given semester."""
+    number = request.data.get('number', 5)
+    s = Section.query.join(Semester) \
+            .filter(Semester.name == semester.upper()) \
+            .order_by(sqlalchemy.sql.expression.func.random()) \
+            .limit(number);
+    return s;

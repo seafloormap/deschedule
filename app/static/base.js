@@ -36,6 +36,16 @@ function fill_some_sections(school, semester, sections) {
   });
 }
 
+function fill_random_sections(school, semester) {
+  console.log('Loading class sections...');
+  api_random_sections(school, semester, false, function(resp) {
+    var items = [];
+    sections = resp['data'];
+    show_sections(sections)
+    console.log('Loaded class sections.');
+  });
+}
+
 function refresh_chips(selected_sections) {
   var styled_chips = [];
   $.each(selected_sections, function(index, section_id) {

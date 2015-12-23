@@ -87,7 +87,8 @@
       <li>
         <div id="message-nosearch"
              class="card-title grey-text lighten-1 center-align message">
-          Classes you search for will show up here.
+          Classes you search for will show up here, or see some
+          <a href='#' onclick='load_random();'>random sections</a>.
         </div>
       </li>
       <li>
@@ -386,6 +387,11 @@ function section_click(element) {
     ical_link.attr('disabled', 'disabled');
     ical_link.attr('value', '');
   }
+}
+
+function load_random() {
+  $('#results').removeClass('nosearch');
+  fill_random_sections(get_school(), get_semester());
 }
 
 </script>
