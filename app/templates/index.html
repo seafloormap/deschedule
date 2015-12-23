@@ -33,12 +33,12 @@
 
   <div class="row">
     <form id="context">
-      <div name="school" class="input-field col s3">
+      <div name="school" class="input-field col s6 m3">
         <select disabled>
           <option value="UMBC" selected>UMBC</option>
         </select>
       </div>
-      <div name="semester" class="input-field col s3">
+      <div name="semester" class="input-field col s6 m3">
         <select>
           {%- for semester in semesters %}
           <option value="{{semester.name}}"
@@ -50,7 +50,7 @@
       </div>
     </form>
     <form id="search">
-      <div class="input-field col s4">
+      <div class="input-field col s12 m6">
         <i class="material-icons prefix">search</i>
         <input name="classes"
                type="text"
@@ -126,7 +126,7 @@
   <form id="addsection">
     <div class="modal-content">
       <div class="row">
-        <div class="input-field col s4">
+        <div class="input-field col s6 l4">
           <input id="addsection-class_code"
                  name="class_code"
                  type="text"
@@ -136,7 +136,7 @@
                  pattern="[A-Z]{3,4}[0-9]{3}">
           <label for="class_code">Class Code</label>
         </div>
-        <div class="input-field col s4">
+        <div class="input-field col s6 l4">
           <input id="addsection-number"
                  name="number"
                  type="number"
@@ -144,7 +144,7 @@
                  class="validate">
           <label for="number">Section Number</label>
         </div>
-        <div name="kind" class="input-field col s4">
+        <div name="kind" class="input-field col s6 l4">
           <select>
             {%- for kind in section_kinds %}
             <option value="{{kind}}" {% if loop.first %}selected{% endif %}>{{kind}}</option>
@@ -154,28 +154,31 @@
         </div>
       </div>
       <div class="row">
-        <div class="input-field col s3">
+        <div class="input-field col s6 l3">
           <input id="addsection-monday" name="monday" class="filled-in" type="checkbox">
           <label for="addsection-monday">Monday</label>
-          <br>
+        </div>
+        <div class="input-field col s6 l3">
           <input id="addsection-tuesday" name="tuesday" class="filled-in" type="checkbox">
           <label for="addsection-tuesday">Tuesday</label>
         </div>
-        <div class="input-field col s3">
+        <div class="input-field col s6 l3">
           <input id="addsection-wednesday" name="wednesday" class="filled-in" type="checkbox">
           <label for="addsection-wednesday">Wednesday</label>
-          <br>
+        </div>
+        <div class="input-field col s6 l3">
           <input id="addsection-thursday" name="thursday" class="filled-in" type="checkbox">
           <label for="addsection-thursday">Thursday</label>
         </div>
-        <div class="input-field col s3">
+        <div class="input-field col s6 l3">
           <input id="addsection-friday" name="friday" class="filled-in" type="checkbox">
           <label for="addsection-friday">Friday</label>
         </div>
-        <div class="input-field col s3">
+        <div class="input-field col s6 l3">
           <input id="addsection-saturday" name="saturday" class="filled-in" type="checkbox">
           <label for="addsection-saturday">Saturday</label>
-          <br>
+        </div>
+        <div class="input-field col s6 l3">
           <input id="addsection-sunday" name="sunday" class="filled-in" type="checkbox">
           <label for="addsection-sunday">Sunday</label>
         </div>
@@ -211,7 +214,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="input-field col s6">
+        <div class="input-field col s12 m6">
           <input id="addsection-instructor"
                  name="instructor"
                  type="text"
@@ -219,7 +222,7 @@
                  class="validate">
           <label for="instructor">Instructor</label>
         </div>
-        <div class="input-field col s6">
+        <div class="input-field col s12 m6">
           <input id="addsection-email"
                  name="email"
                  type="email"
