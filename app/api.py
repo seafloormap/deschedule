@@ -33,7 +33,7 @@ def api_wrap(return_values, status='ok'):
 @app.route('/api/umbc/semester/')
 @api_response
 def api_all_semesters():
-    semesters = Semester.query.order_by('start').all();
+    semesters = Semester.query.order_by(sqlalchemy.desc('end')).all();
     return semesters
 
 # Create a new semester listing.

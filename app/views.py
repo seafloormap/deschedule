@@ -4,6 +4,7 @@ import flask
 from flask import request, render_template
 from flask.ext.api.decorators import set_renderers
 from flask.ext.api.renderers import HTMLRenderer
+import sqlalchemy
 
 from app.renderers import ICalendarRenderer
 
@@ -12,7 +13,8 @@ from app.renderers import ICalendarRenderer
 @set_renderers(HTMLRenderer)
 def index():
     return render_template('index.html',
-            semesters = models.Semester.query.order_by('end').all(),
+            semesters = models.Semester.query.order_by(
+                sqlalchemy.desc('end')).all(),
             section_kinds = models.Section.kinds
     )
 
