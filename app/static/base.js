@@ -74,19 +74,19 @@ function deselect_section(section_id) {
 }
 
 function show_sections(sections) {
-  dismiss_sections();
-
-  var styled_sections = [];
-  $.each(sections, function(key, val) {
-    styled_sections.push(style_section(val));
+  dismiss_sections(function() {
+      var styled_sections = [];
+      $.each(sections, function(key, val) {
+          styled_sections.push(style_section(val));
+      });
+      $('#spinner').removeClass('active');
+      $('#sections').html(styled_sections.join(''));
+      console.log('Loaded class sections.');
+      Materialize.showStaggeredList('#sections-container');
   });
-  $('#spinner').removeClass('active');
-  $('#sections').html(styled_sections.join(''));
-  console.log('Loaded class sections.');
-  Materialize.showStaggeredList('#sections-container');
 }
 
-function dismiss_sections() {
+function dismiss_sections(callback) {
   // Adapted from Materialize/js/transitions.js showStaggeredList
   var time = 0;
   $('#sections-container').find('li').each(function() {
@@ -95,6 +95,7 @@ function dismiss_sections() {
         { duration: 800, delay: time, easing: [60, 10] });
     time += 120;
   });
+  window.setTimeout(callback, time);
 }
 
 function any_sections_selected() {
