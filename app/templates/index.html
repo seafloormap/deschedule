@@ -254,7 +254,7 @@
 
 // Flush the pre-loaded sections, and display any messages in the results box.
 $(document).ready(function() {
-  show_sections([]);
+  show_sections([], false);
 });
 
 $(document).ready(function() {
@@ -334,9 +334,6 @@ $(document).ready(function() {
     $('#spinner').addClass('active');
 
     $.getJSON(url, function(resp) {
-      // Remove the nosearch class, because we have preformed a search.
-      $('#results').removeClass('nosearch');
-
       if(resp['data'].length > 0) {
         $('#results').removeClass('noresults');
       } else {
@@ -397,7 +394,6 @@ function section_click(element) {
 }
 
 function load_random() {
-  $('#results').removeClass('nosearch');
   fill_random_sections(get_school(), get_semester());
 }
 

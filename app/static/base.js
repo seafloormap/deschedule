@@ -41,7 +41,7 @@ function fill_random_sections(school, semester) {
   api_random_sections(school, semester, false, function(resp) {
     var items = [];
     sections = resp['data'];
-    show_sections(sections)
+    show_sections(sections);
     console.log('Loaded class sections.');
   });
 }
@@ -73,8 +73,14 @@ function deselect_section(section_id) {
   $('.section.active[data-sectionid="' + section_id +'"]').removeClass('active');
 }
 
-function show_sections(sections) {
+function show_sections(sections, isSearch) {
+  if(isSearch === undefined) {
+      isSearch = true;
+  }
   dismiss_sections(function() {
+      if(isSearch) {
+          $('#results').removeClass('nosearch');
+      }
       var styled_sections = [];
       $.each(sections, function(key, val) {
           styled_sections.push(style_section(val));
