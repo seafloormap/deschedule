@@ -28,6 +28,13 @@ def api_wrap(return_values, status='ok'):
 #
 # At present, all API endpoints begin with /api/umbc/ because we may some day
 # support multiple schools.
+@app.route('/api/')
+@api_response
+def api_root():
+    """All of the functionality of Deschedule is provided by the API. The documentation is
+    sparse, but can be found in the source code at
+    https://github.com/alexander-bauer/deschedule/blob/master/app/api.py"""
+    return None
 
 # Endpoint for browsing all listed semesters.
 @app.route('/api/umbc/semester/')
