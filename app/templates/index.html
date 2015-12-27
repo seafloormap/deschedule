@@ -12,13 +12,61 @@
   <h4>Simplify your Academic Calendar</h4>
 </div>
 
-<p class="flow-text">
-  Deschedule is a free web service that collects lists of University class
-  schedules, and generates event calendars that can be imported into any other
-  calendar application. To use it, you don't need to make an account or log in.
-  Enter your school, the classes (and section numbers) that you are in, and import
-  the resulting URL into your calendar app.
-</p>
+<div class="row">
+  <div id="tabs" class="col s12">
+    <ul class="tabs">
+      <li class="tab col s4"><a href="#intro">Introduction</a></li>
+      <li class="tab col s4"><a href="#technical">Technical</a></li>
+      <li class="tab col s4"><a href="#contributing">Contributing</a></li>
+    </ul>
+  </div>
+  <div class="col s12">
+    <p id="intro" class="flow-text">
+    Deschedule is a free web service that collects lists of University class schedules, and
+    generates event calendars that can be imported into any other calendar application. To use it,
+    you don't need to make an account or log in. Enter your school, the classes (and section
+    numbers) that you are in, and import the resulting URL into your calendar app.
+    </p>
+    <div id="technical" class="flow-text">
+      <p>
+      In general, Deschedule is a calendar generator. It builds complete event calendars for a
+      single academic semester in
+      <a href="https://en.wikipedia.org/wiki/ICalendar">iCalendar</a>
+      format, using a list of class sections. Data for these sections is collected and entered
+      by users, and once entered, is usable by anyone.
+      </p>
+      <p>
+      Deschedule is written in
+      <a href="https://www.python.org/">Python 3</a>
+      using the web framework
+      <a href="http://flask.pocoo.org/">Flask</a>.
+      All functions are performed by interacting with the
+      <a href="api/">API</a> using <a href="https://jquery.com">JQuery</a>.
+      This page acts as a single-page application for interfacing with the API.
+      <p>
+      <p>
+      Deschedule is open source and
+      <a href="http://choosealicense.com/licenses/gpl-3.0/">GPLv3</a>
+      licensed. To look at the source code, to report a bug, or to contribute, please see
+      <a onclick="$('#tabs a[href=&quot;#contributing&quot;]').click();" href="#contributing">Contributing</a>.
+      </p>
+    </div>
+    <div id="contributing" class="flow-text">
+      <p>
+      Deschedule is an open source project. Anyone can contribute, and anyone can use it or
+      host a copy for free and with no restrictions. It is
+      <a href="http://choosealicense.com/licenses/gpl-3.0/">GPLv3</a>
+      licensed. Contributions and bug reports are highly appreciated!
+      </p>
+      <p>
+      The complete source code is hosted on
+      <a href="https://github.com/alexander-bauer/deschedule">GitHub</a>,
+      as is the
+      <a href="https://github.com/alexander-bauer/deschedule/issues">issue tracker</a>.
+      </p>
+    </div>
+  </div>
+</div>
 
 <ul id="sections-selected"></ul>
 
