@@ -89,6 +89,13 @@ function show_sections(sections, isSearch) {
       $('#sections').html(styled_sections.join(''));
       console.log('Loaded class sections.');
       Materialize.showStaggeredList('#sections-container');
+
+      // Scroll the browser down to the control box if it is above them.
+      var controlbox_offset = $('#control-box').offset().top;
+      if(controlbox_offset > $('html,body').scrollTop()) {
+        $('html,body').velocity('scroll',
+            { duration: 500, offset: controlbox_offset });
+      }
   });
 }
 
